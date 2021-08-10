@@ -1,0 +1,18 @@
+:root {
+  --background-dark-color: #1C1A19
+}
+
+body, #root {
+  height: 100vh;
+}
+
+#root {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+main {
+  flex: 1;
+}
