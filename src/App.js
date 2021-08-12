@@ -7,17 +7,17 @@ import { RegisterPage } from './components/pages/auth/RegisterPage';
 import { UserContext } from './userContext';
 
 const routes = {
-  '/login': (
+  '/login': () => (
     <AuthLayout>
       <LoginPage />
     </AuthLayout>
   ),
-  '/register': (
+  '/register': () => (
     <AuthLayout>
       <RegisterPage />
     </AuthLayout>
   ),
-  '/app': (
+  '/app': () => (
     <AppLayout>
       App
     </AppLayout>
@@ -25,7 +25,7 @@ const routes = {
 }
 
 const router = (url) => {
-  return routes[url] ?? routes['/login']
+  return routes[url] ? routes[url]() : routes['/login']()
 }
 
 export const App = () => {

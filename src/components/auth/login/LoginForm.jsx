@@ -2,9 +2,8 @@ import { ButtonForm } from '../../ui/ButtonForm'
 import { Grid, TextField } from '@material-ui/core'
 import { useLoginForm } from './useLoginForm'
 import { makeStyles, darken } from '@material-ui/core/styles'
-import theme from '../../../theme'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   fieldWrapper: {
     marginBottom: '25px'
   },
@@ -34,7 +33,7 @@ const useStyles = makeStyles(theme => ({
       }
     }
   },
-}));
+});
 
 export const LoginForm = () => {
   const {
