@@ -1,3 +1,8 @@
+import { AuthFormWrapper } from '../../auth/AuthFormWrapper'
+import { LoginForm } from '../../auth/login/LoginForm'
+
 export const LoginPage = () => (
-  <div>Login page</div>
+  <AuthFormWrapper heading="Войти">
+    <LoginForm />
+  </AuthFormWrapper>
 )

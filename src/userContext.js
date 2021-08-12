@@ -4,4 +4,5 @@ export const UserContext = React.createContext({
   isLoggedIn: false,
   handleLogIn: () => {},
   handleLogOut: () => {},
+  handleChangePage: () => {},
 });
