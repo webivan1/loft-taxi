@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useContext } from 'react'
 import { UserContext } from '../../../userContext'
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   header: {
     height: '102px',
     background: '#1C1A19'
@@ -26,9 +26,9 @@ const useStyles = makeStyles(theme => ({
       }
     }
   }
-}))
+})
 
-export const AppHeader = ({ menu }) => {
+export const AppHeader = () => {
   const classes = useStyles()
   const { handleLogOut, handleChangePage } = useContext(UserContext)
 
