@@ -1,27 +1,28 @@
-import { useState } from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
-import { AppLayout } from './components/layouts/AppLayout';
-import { AuthLayout } from './components/layouts/AuthLayout';
-import { LoginPage } from './components/pages/auth/LoginPage';
-import { RegisterPage } from './components/pages/auth/RegisterPage';
-import { UserContext } from './userContext';
+import { useState } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { UserContext } from './userContext'
+import { AppLayout } from './components/layouts/AppLayout'
+import { AuthLayout } from './components/layouts/AuthLayout'
+import { LoginPage } from './pages/auth/LoginPage'
+import { RegisterPage } from './pages/auth/RegisterPage'
+import { MapPage } from './pages/map/MapPage'
 
 const routes = {
   '/login': () => (
     <AuthLayout>
-      <LoginPage />
+      <LoginPage/>
     </AuthLayout>
   ),
   '/register': () => (
     <AuthLayout>
-      <RegisterPage />
+      <RegisterPage/>
     </AuthLayout>
   ),
-  '/app': () => (
+  '/map': () => (
     <AppLayout>
-      App
+      <MapPage/>
     </AppLayout>
-  )
+  ),
 }
 
 const router = (url) => {
@@ -32,16 +33,17 @@ export const App = () => {
   const [isLoggedIn, toggleLogin] = useState(false)
   const [currentPage, onChangePage] = useState(router('/login'))
 
+  const handleChangePage = (page) => {
+    onChangePage(router(page))
+  }
+
   const handleLogIn = () => {
     toggleLogin(true)
   }
 
   const handleLogOut = () => {
     toggleLogin(false)
-  }
-
-  const handleChangePage = (page) => {
-    onChangePage(router(page))
+    handleChangePage('/login')
   }
 
   return (
@@ -50,7 +52,7 @@ export const App = () => {
         isLoggedIn,
         handleLogIn,
         handleLogOut,
-        handleChangePage
+        handleChangePage,
       }}>
         {currentPage}
 

@@ -1,6 +1,6 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { ReactComponent as Logo } from '../../logo.svg';
+import React from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { ReactComponent as Logo } from '../../assets/logo.svg'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -8,8 +8,8 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     flexWrap: 'wrap',
     [theme.breakpoints.down('sm')]: {
-      flexDirection: 'column'
-    }
+      flexDirection: 'column',
+    },
   },
   logoWrapper: {
     width: '34%',
@@ -21,8 +21,8 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '25px',
     [theme.breakpoints.down('sm')]: {
       width: '100%',
-      height: 'auto'
-    }
+      height: 'auto',
+    },
   },
   content: {
     width: '66%',
@@ -35,17 +35,17 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       width: '100%',
       flex: 1,
-      height: 'auto'
-    }
+      height: 'auto',
+    },
   },
   logo: {
     width: '196px',
     height: 'auto',
     [theme.breakpoints.down('sm')]: {
-      width: '34%'
-    }
-  }
-}));
+      width: '34%',
+    },
+  },
+}))
 
 export const AuthLayout = ({ children }) => {
   const classes = useStyles()
@@ -53,7 +53,7 @@ export const AuthLayout = ({ children }) => {
   return (
     <main className={classes.root}>
       <div className={classes.logoWrapper}>
-        <Logo className={classes.logo} />
+        <Logo className={classes.logo}/>
       </div>
       <div className={classes.content}>
         {children}

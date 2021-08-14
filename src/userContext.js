@@ -1,8 +1,11 @@
-import React from 'react';
+import React from 'react'
 
 export const UserContext = React.createContext({
   isLoggedIn: false,
-  handleLogIn: () => {},
-  handleLogOut: () => {},
-  handleChangePage: () => {},
-});
+  handleLogIn: () => {
+  },
+  handleLogOut: () => {
+  },
+  handleChangePage: () => {
+  },
+})
