@@ -6,6 +6,7 @@ import { AuthLayout } from './components/layouts/AuthLayout'
 import { LoginPage } from './pages/auth/LoginPage'
 import { RegisterPage } from './pages/auth/RegisterPage'
 import { MapPage } from './pages/map/MapPage'
+import { ProfilePage } from './pages/profile/ProfilePage'
 
 const routes = {
   '/login': () => (
@@ -21,6 +22,11 @@ const routes = {
   '/map': () => (
     <AppLayout>
       <MapPage/>
+    </AppLayout>
+  ),
+  '/profile': () => (
+    <AppLayout>
+      <ProfilePage/>
     </AppLayout>
   ),
 }

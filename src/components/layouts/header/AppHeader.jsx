@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 
 export const AppHeader = ({ menu }) => {
   const classes = useStyles()
-  const { handleLogOut } = useContext(UserContext)
+  const { handleLogOut, handleChangePage } = useContext(UserContext)
 
   return (
     <header>
@@ -39,8 +39,8 @@ export const AppHeader = ({ menu }) => {
           <Logo className={classes.logo} />
 
           <nav className={classes.nav}>
-            <a href="#" color="inherit">Карта</a>
-            <a href="#" color="inherit">Профиль</a>
+            <a href="#" onClick={() => handleChangePage('/map')} color="inherit">Карта</a>
+            <a href="#" onClick={() => handleChangePage('/profile')} color="inherit">Профиль</a>
             <a href="#" onClick={handleLogOut} color="inherit">Выйти</a>
           </nav>
         </Toolbar>
