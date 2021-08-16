@@ -1,7 +1,8 @@
 import { ButtonForm } from '../../ui/ButtonForm'
 import { Grid, TextField } from '@material-ui/core'
-import { useLoginForm } from './useLoginForm'
 import { makeStyles, darken } from '@material-ui/core/styles'
+import { useContext, useState } from 'react'
+import { UserContext } from '../../../userContext'
 
 const useStyles = makeStyles({
   fieldWrapper: {
@@ -36,14 +37,18 @@ const useStyles = makeStyles({
 });
 
 export const LoginForm = () => {
-  const {
-    email,
-    password,
-    handleSubmit,
-    handleChangeEmail,
-    handleChangePassword,
-    handleChangePage
-  } = useLoginForm()
+  const { handleLogIn, handleChangePage } = useContext(UserContext)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    handleLogIn()
+    handleChangePage('/map')
+  }
+
+  const handleChangeEmail = (e) => setEmail(e.target.value)
+  const handleChangePassword = (e) => setPassword(e.target.value)
 
   const classes = useStyles()
 
