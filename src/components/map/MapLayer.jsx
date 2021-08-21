@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, memo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import mapbox from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   }
 })
 
-export const MapLayer = () => {
+export const MapLayer = memo(() => {
   const classes = useStyles()
   const mapContainer = useRef(null)
   const map = useRef(null)
@@ -39,4 +39,4 @@ export const MapLayer = () => {
   return (
     <div ref={mapContainer} className={classes.root}/>
   )
-}
+})
