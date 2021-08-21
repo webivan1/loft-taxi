@@ -15,11 +15,7 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down('sm')]: {
       padding: '15px',
     },
-    '& *': {
-      position: 'relative',
-      zIndex: 1
-    }
-  },
+  }
 }))
 
 export const AppLayout = ({ children }) => {

@@ -1,5 +1,6 @@
 import { forwardRef } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles({
   btn: {
@@ -48,3 +49,9 @@ export const ButtonForm = forwardRef(({ children, fullWidth = false, className =
     </button>
   )
 })
+
+ButtonForm.propTypes = {
+  children: PropTypes.any.isRequired,
+  fullWidth: PropTypes.bool,
+  className: PropTypes.string
+}
