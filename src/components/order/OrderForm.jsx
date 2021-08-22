@@ -50,6 +50,7 @@ const SelectForm = ({ className, label, id, value, onChange, children }) => (
       value={value}
       onChange={event => onChange(event.target.value)}
       IconComponent={ExpandMoreIcon}
+      data-testid={id}
     >
       {children}
     </Select>
