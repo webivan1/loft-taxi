@@ -50,7 +50,7 @@ export const RegisterForm = () => {
   const classes = useStyles()
 
   return (
-    <form noValidate onSubmit={handleSubmit}>
+    <form data-testid="reg-form" noValidate onSubmit={handleSubmit}>
       <Grid container className={classes.wrapper}>
         <Grid item xs={12} className={classes.fieldWrapper}>
           <TextField
@@ -61,6 +61,7 @@ export const RegisterForm = () => {
             onChange={handleChangeEmail}
             margin="none"
             fullWidth
+            data-testid="reg-email"
           />
         </Grid>
         <Grid item xs={12} className={classes.fieldWrapper}>
@@ -72,6 +73,7 @@ export const RegisterForm = () => {
             onChange={handleChangeName}
             margin="none"
             fullWidth
+            data-testid="reg-name"
           />
         </Grid>
         <Grid item xs={12} className={classes.fieldWrapper}>
@@ -84,10 +86,11 @@ export const RegisterForm = () => {
             onChange={handleChangePassword}
             margin="none"
             fullWidth
+            data-testid="reg-password"
           />
         </Grid>
       </Grid>
-      <ButtonForm fullWidth type="submit">
+      <ButtonForm data-testid="reg-btn" fullWidth type="submit">
         Зарегистрироваться
       </ButtonForm>
 

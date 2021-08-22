@@ -53,7 +53,7 @@ export const LoginForm = () => {
   const classes = useStyles()
 
   return (
-    <form noValidate onSubmit={handleSubmit}>
+    <form data-testid="login-form" noValidate onSubmit={handleSubmit}>
       <Grid container className={classes.wrapper}>
         <Grid item xs={12} className={classes.fieldWrapper}>
           <TextField
@@ -63,6 +63,7 @@ export const LoginForm = () => {
             onChange={handleChangeEmail}
             margin="none"
             fullWidth
+            data-testid="login-email"
           />
         </Grid>
         <Grid item xs={12} className={classes.fieldWrapper}>
@@ -74,13 +75,16 @@ export const LoginForm = () => {
             onChange={handleChangePassword}
             margin="none"
             fullWidth
+            data-testid="login-password"
           />
           <div className={classes.forgotPassword}>
             <a href="#">Забыли пароль?</a>
           </div>
         </Grid>
       </Grid>
-      <ButtonForm fullWidth type="submit">Войти</ButtonForm>
+      <ButtonForm data-testid="login-btn" fullWidth type="submit">
+        Войти
+      </ButtonForm>
 
       <div className={classes.register}>
         Новый пользователь?{' '}
