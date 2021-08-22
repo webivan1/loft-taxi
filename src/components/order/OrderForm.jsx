@@ -1,6 +1,7 @@
+import { useState } from 'react'
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { useState } from 'react'
+import PropTypes from 'prop-types'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import { startDestinationOptions, finishDestinationOptions, options } from './data'
 import { Option } from './Option'
@@ -41,7 +42,21 @@ const useStyles = makeStyles({
   }
 })
 
-export const OrderForm = () => {
+const SelectForm = ({ className, label, id, value, onChange, children }) => (
+  <FormControl fullWidth className={className}>
+    <InputLabel id={id}>{label}</InputLabel>
+    <Select
+      labelId={id}
+      value={value}
+      onChange={event => onChange(event.target.value)}
+      IconComponent={ExpandMoreIcon}
+    >
+      {children}
+    </Select>
+  </FormControl>
+)
+
+export const OrderForm = ({ onSubmit }) => {
   const classes = useStyles()
 
   const [startLocation, setStartLocation] = useState('')
@@ -54,7 +69,7 @@ export const OrderForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    console.log('Form: ', {
+    onSubmit({
       start: startLocation,
       finish: finishLocation,
       option,
@@ -64,40 +79,32 @@ export const OrderForm = () => {
   return (
     <form action="#" method="POST" onSubmit={handleSubmit}>
       <div className={classes.fieldWrapper}>
-        <FormControl hiddenLabel fullWidth className={classes.select}>
-          <InputLabel id="from-destination">
-            Откуда
-          </InputLabel>
-          <Select
-            labelId="from-destination"
-            value={startLocation}
-            onChange={event => setStartLocation(event.target.value)}
-            IconComponent={ExpandMoreIcon}
-          >
-            {startDestinationOptions.map(({ value, label }) => (
-              <MenuItem key={value} value={value}>
-                {label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl fullWidth className={[classes.select, 'no-border'].join(' ')}>
-          <InputLabel id="from-destination">
-            Куда
-          </InputLabel>
-          <Select
-            labelId="from-destination"
-            value={finishLocation}
-            onChange={event => setFinishLocation(event.target.value)}
-            IconComponent={ExpandMoreIcon}
-          >
-            {finishDestinationOptions.map(({ value, label }) => (
-              <MenuItem key={value} value={value}>
-                {label}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+        <SelectForm
+          label="Откуда"
+          id="from-destination"
+          className={classes.select}
+          value={startLocation}
+          onChange={setStartLocation}
+        >
+          {startDestinationOptions.map(({ value, label }) => (
+            <MenuItem key={value} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </SelectForm>
+        <SelectForm
+          label="Куда"
+          id="to-destination"
+          className={[classes.select, 'no-border'].join(' ')}
+          value={finishLocation}
+          onChange={setFinishLocation}
+        >
+          {finishDestinationOptions.map(({ value, label }) => (
+            <MenuItem key={value} value={value}>
+              {label}
+            </MenuItem>
+          ))}
+        </SelectForm>
       </div>
       <div className={classes.wrapOptions}>
         <div className={classes.options}>
@@ -116,4 +123,17 @@ export const OrderForm = () => {
       </div>
     </form>
   )
+}
+
+OrderForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired
+}
+
+SelectForm.propTypes = {
+  className: PropTypes.string,
+  label: PropTypes.string.isRequired,
+  id: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
+  children: PropTypes.any
 }

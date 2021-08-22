@@ -5,6 +5,10 @@ import { useContext } from 'react'
 import { UserContext } from '../../../userContext'
 
 const useStyles = makeStyles({
+  root: {
+    position: 'relative',
+    zIndex: 5
+  },
   header: {
     height: '102px',
     background: '#1C1A19'
@@ -33,7 +37,7 @@ export const AppHeader = () => {
   const { handleLogOut, handleChangePage } = useContext(UserContext)
 
   return (
-    <header>
+    <header className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.header}>
           <Logo className={classes.logo} />

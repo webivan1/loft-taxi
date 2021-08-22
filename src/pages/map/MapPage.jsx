@@ -1,6 +1,8 @@
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper } from '@material-ui/core'
 import { OrderForm } from '../../components/order/OrderForm'
+import { useState } from 'react'
+import { OrderSuccess } from '../../components/order/OrderSuccess'
 
 const useStyles = makeStyles({
   root: {
@@ -16,10 +18,24 @@ const useStyles = makeStyles({
 
 export const MapPage = () => {
   const classes = useStyles()
+  const [isSubmitted, setSubmit] = useState(false)
+
+  const handleSubmittedForm = (form) => {
+    setSubmit(true)
+    console.log(form)
+  }
+
+  const handleResetSubmit = () => {
+    setSubmit(false)
+  }
 
   return (
     <Paper className={classes.root}>
-      <OrderForm />
+      {isSubmitted ? (
+        <OrderSuccess onReset={handleResetSubmit} />
+      ) : (
+        <OrderForm onSubmit={handleSubmittedForm} />
+      )}
     </Paper>
   )
 }
