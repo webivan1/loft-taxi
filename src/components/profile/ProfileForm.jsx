@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { TextField } from '@material-ui/core'
 import InputMask from 'react-input-mask'
 import { makeStyles } from '@material-ui/core/styles'
@@ -128,4 +129,23 @@ export const ProfileForm = ({
       </div>
     </form>
   )
+}
+
+ProfileForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  getters: PropTypes.shape({
+    nameOfCard: PropTypes.string,
+    numberOfCard: PropTypes.string,
+    expireDate: PropTypes.string,
+    cvcCode: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ])
+  }),
+  setters: PropTypes.shape({
+    setNameOfCard: PropTypes.func.isRequired,
+    setNumberOfCard: PropTypes.func.isRequired,
+    setExpireDate: PropTypes.func.isRequired,
+    setCvcCode: PropTypes.func.isRequired
+  })
 }

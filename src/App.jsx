@@ -43,8 +43,9 @@ export const App = () => {
     onChangePage(router(page))
   }
 
-  const handleLogIn = () => {
+  const handleLogIn = (email, password) => {
     toggleLogin(true)
+    console.log(email, password)
   }
 
   const handleLogOut = () => {
@@ -56,8 +57,8 @@ export const App = () => {
     <Router>
       <UserContext.Provider value={{
         isLoggedIn,
-        handleLogIn,
-        handleLogOut,
+        login: handleLogIn,
+        logout: handleLogOut,
         handleChangePage,
       }}>
         {currentPage}

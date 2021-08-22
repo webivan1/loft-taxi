@@ -37,13 +37,13 @@ const useStyles = makeStyles({
 });
 
 export const LoginForm = () => {
-  const { handleLogIn, handleChangePage } = useContext(UserContext)
+  const { login, handleChangePage } = useContext(UserContext)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    handleLogIn()
+    login(email, password)
     handleChangePage('/map')
   }
 

@@ -34,7 +34,7 @@ const useStyles = makeStyles({
 
 export const AppHeader = () => {
   const classes = useStyles()
-  const { handleLogOut, handleChangePage } = useContext(UserContext)
+  const { logout, handleChangePage } = useContext(UserContext)
 
   return (
     <header className={classes.root}>
@@ -45,7 +45,7 @@ export const AppHeader = () => {
           <nav className={classes.nav}>
             <a href="#" onClick={() => handleChangePage('/map')} color="inherit">Карта</a>
             <a href="#" onClick={() => handleChangePage('/profile')} color="inherit">Профиль</a>
-            <a href="#" onClick={handleLogOut} color="inherit">Выйти</a>
+            <a href="#" onClick={logout} color="inherit">Выйти</a>
           </nav>
         </Toolbar>
       </AppBar>

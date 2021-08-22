@@ -38,17 +38,13 @@ export const ProfilePage = () => {
     console.log(form)
   }
 
-  const handleEditableProfile = () => {
-    setIsShowForm(true)
-  }
-
   return (
     <div className={classes.background}>
       <Paper className={classes.modal}>
         {isShowForm ? (
           <ProfileFormWrapper onSubmit={handleUpdatedProfile} />
         ) : (
-          <ProfileSuccess onReset={handleEditableProfile} />
+          <ProfileSuccess />
         )}
       </Paper>
     </div>

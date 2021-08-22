@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles({
   root: {
@@ -18,4 +19,9 @@ export const Heading = ({ children, className = '' }) => {
       {children}
     </div>
   )
+}
+
+Heading.propTypes = {
+  children: PropTypes.string.isRequired,
+  className: PropTypes.string
 }

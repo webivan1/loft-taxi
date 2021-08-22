@@ -1,6 +1,7 @@
 import { Paper } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import { Heading } from './Heading'
+import PropTypes from 'prop-types'
 
 const useStyles = makeStyles({
   root: {
@@ -40,4 +41,9 @@ export const AuthFormWrapper = ({ heading, children }) => {
       </div>
     </Paper>
   )
+}
+
+AuthFormWrapper.propTypes = {
+  heading: PropTypes.string.isRequired,
+  children: PropTypes.string
 }
