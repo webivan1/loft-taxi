@@ -78,7 +78,7 @@ export const LoginForm = () => {
             data-testid="login-password"
           />
           <div className={classes.forgotPassword}>
-            <a href="#">Забыли пароль?</a>
+            <a href="#/forgot-pass">Забыли пароль?</a>
           </div>
         </Grid>
       </Grid>
@@ -88,7 +88,7 @@ export const LoginForm = () => {
 
       <div className={classes.register}>
         Новый пользователь?{' '}
-        <a href="#" onClick={() => handleChangePage('/register')}>
+        <a href="#/register" onClick={() => handleChangePage('/register')}>
           Регистрация
         </a>
       </div>

@@ -96,7 +96,7 @@ export const RegisterForm = () => {
 
       <div className={classes.register}>
         Уже зарегестрированны?{' '}
-        <a href="#" onClick={() => handleChangePage('/login')}>
+        <a href="#/login" onClick={() => handleChangePage('/login')}>
           Войти
         </a>
       </div>

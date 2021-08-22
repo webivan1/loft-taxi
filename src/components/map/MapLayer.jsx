@@ -34,7 +34,7 @@ export const MapLayer = memo(() => {
         map.current.remove()
       }
     }
-  }, [map.current])
+  })
 
   return (
     <div ref={mapContainer} className={classes.root}/>

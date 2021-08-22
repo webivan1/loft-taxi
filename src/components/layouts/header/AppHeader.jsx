@@ -43,9 +43,9 @@ export const AppHeader = () => {
           <Logo className={classes.logo} />
 
           <nav className={classes.nav}>
-            <a href="#" onClick={() => handleChangePage('/map')} color="inherit">Карта</a>
-            <a href="#" onClick={() => handleChangePage('/profile')} color="inherit">Профиль</a>
-            <a href="#" onClick={logout} color="inherit">Выйти</a>
+            <a href="#/map" onClick={() => handleChangePage('/map')} color="inherit">Карта</a>
+            <a href="#/profile" onClick={() => handleChangePage('/profile')} color="inherit">Профиль</a>
+            <a href="#/logout" onClick={logout} color="inherit">Выйти</a>
           </nav>
         </Toolbar>
       </AppBar>
