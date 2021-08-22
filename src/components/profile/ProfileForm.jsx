@@ -83,7 +83,6 @@ export const ProfileForm = ({
               fullWidth
               label="Номер карты"
               className={classes.field}
-              disableUnderline
               {...props}
             />}
           </InputMask>
@@ -98,7 +97,6 @@ export const ProfileForm = ({
                 fullWidth
                 label="MM/YY"
                 className={classes.field}
-                disableUnderline
                 {...props}
               />}
             </InputMask>
@@ -112,7 +110,6 @@ export const ProfileForm = ({
                 fullWidth
                 label="CVC"
                 className={classes.field}
-                disableUnderline
                 {...props}
               />}
             </InputMask>

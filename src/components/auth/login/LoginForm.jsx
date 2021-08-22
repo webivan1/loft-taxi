@@ -2,7 +2,8 @@ import { ButtonForm } from '../../ui/ButtonForm'
 import { Grid, TextField } from '@material-ui/core'
 import { makeStyles, darken } from '@material-ui/core/styles'
 import { useContext, useState } from 'react'
-import { UserContext } from '../../../userContext'
+import { AuthContext } from '../../../AuthContext'
+import { RouterContext } from '../../../RouterContext'
 
 const useStyles = makeStyles({
   fieldWrapper: {
@@ -37,14 +38,16 @@ const useStyles = makeStyles({
 });
 
 export const LoginForm = () => {
-  const { login, handleChangePage } = useContext(UserContext)
+  const { login } = useContext(AuthContext)
+  const { navigateTo } = useContext(RouterContext)
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = (event) => {
     event.preventDefault()
     login(email, password)
-    handleChangePage('/map')
+    navigateTo('/map')
   }
 
   const handleChangeEmail = (e) => setEmail(e.target.value)
@@ -88,7 +91,7 @@ export const LoginForm = () => {
 
       <div className={classes.register}>
         Новый пользователь?{' '}
-        <a href="#/register" onClick={() => handleChangePage('/register')}>
+        <a href="#/register" onClick={() => navigateTo('/register')}>
           Регистрация
         </a>
       </div>

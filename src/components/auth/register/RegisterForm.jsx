@@ -44,7 +44,7 @@ export const RegisterForm = () => {
     handleChangeEmail,
     handleChangeName,
     handleChangePassword,
-    handleChangePage
+    navigateTo
   } = useRegisterForm()
 
   const classes = useStyles()
@@ -96,7 +96,7 @@ export const RegisterForm = () => {
 
       <div className={classes.register}>
         Уже зарегестрированны?{' '}
-        <a href="#/login" onClick={() => handleChangePage('/login')}>
+        <a href="#/login" onClick={() => navigateTo('/login')}>
           Войти
         </a>
       </div>

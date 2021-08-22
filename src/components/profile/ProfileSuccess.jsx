@@ -1,7 +1,7 @@
 import { ButtonForm } from '../ui/ButtonForm'
 import { makeStyles } from '@material-ui/core/styles'
 import { useContext } from 'react'
-import { UserContext } from '../../userContext'
+import { RouterContext } from '../../RouterContext'
 
 const useStyles = makeStyles({
   root: {
@@ -22,11 +22,11 @@ const useStyles = makeStyles({
 })
 
 export const ProfileSuccess = () => {
-  const { handleChangePage } = useContext(UserContext)
+  const { navigateTo } = useContext(RouterContext)
   const classes = useStyles()
 
   const toMapPage = () => {
-    handleChangePage('/map')
+    navigateTo('/map')
   }
 
   return (
