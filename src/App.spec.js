@@ -1,9 +1,14 @@
-// import { render } from '@testing-library/react'
-// import { App } from './App'
+import { render } from '@testing-library/react'
+import { App } from './App'
+import { ThemeProvider } from '@material-ui/core/styles'
+import theme from './theme'
 
 describe('App', () => {
-  // @todo testing login form auth, navigation and etc
-  it('App test', () => {
-    expect(true).toBeTruthy()
+  it('should render App component', () => {
+    render(
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    )
   })
 })

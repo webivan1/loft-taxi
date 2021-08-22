@@ -45,5 +45,5 @@ export const AuthFormWrapper = ({ heading, children }) => {
 
 AuthFormWrapper.propTypes = {
   heading: PropTypes.string.isRequired,
-  children: PropTypes.string
+  children: PropTypes.any
 }

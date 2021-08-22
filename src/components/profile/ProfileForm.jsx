@@ -52,14 +52,14 @@ const useStyles = makeStyles(theme => ({
 
 export const ProfileForm = ({
   onSubmit,
-  getters: {nameOfCard, numberOfCard, expireDate, cvcCode},
-  setters: {setNameOfCard, setNumberOfCard, setExpireDate, setCvcCode}
+  getters: { nameOfCard, numberOfCard, expireDate, cvcCode },
+  setters: { setNameOfCard, setNumberOfCard, setExpireDate, setCvcCode }
 }) => {
   const classes = useStyles()
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    onSubmit({nameOfCard, numberOfCard, expireDate, cvcCode})
+    onSubmit({ nameOfCard, numberOfCard, expireDate, cvcCode })
   }
 
   return (
@@ -141,11 +141,11 @@ ProfileForm.propTypes = {
       PropTypes.string,
       PropTypes.number
     ])
-  }),
+  }).isRequired,
   setters: PropTypes.shape({
     setNameOfCard: PropTypes.func.isRequired,
     setNumberOfCard: PropTypes.func.isRequired,
     setExpireDate: PropTypes.func.isRequired,
     setCvcCode: PropTypes.func.isRequired
-  })
+  }).isRequired
 }
