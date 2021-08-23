@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import { TextField } from '@material-ui/core'
 import InputMask from 'react-input-mask'
 import { makeStyles } from '@material-ui/core/styles'
@@ -51,14 +52,14 @@ const useStyles = makeStyles(theme => ({
 
 export const ProfileForm = ({
   onSubmit,
-  getters: {nameOfCard, numberOfCard, expireDate, cvcCode},
-  setters: {setNameOfCard, setNumberOfCard, setExpireDate, setCvcCode}
+  getters: { nameOfCard, numberOfCard, expireDate, cvcCode },
+  setters: { setNameOfCard, setNumberOfCard, setExpireDate, setCvcCode }
 }) => {
   const classes = useStyles()
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    onSubmit({nameOfCard, numberOfCard, expireDate, cvcCode})
+    onSubmit({ nameOfCard, numberOfCard, expireDate, cvcCode })
   }
 
   return (
@@ -82,7 +83,6 @@ export const ProfileForm = ({
               fullWidth
               label="Номер карты"
               className={classes.field}
-              disableUnderline
               {...props}
             />}
           </InputMask>
@@ -97,7 +97,6 @@ export const ProfileForm = ({
                 fullWidth
                 label="MM/YY"
                 className={classes.field}
-                disableUnderline
                 {...props}
               />}
             </InputMask>
@@ -111,7 +110,6 @@ export const ProfileForm = ({
                 fullWidth
                 label="CVC"
                 className={classes.field}
-                disableUnderline
                 {...props}
               />}
             </InputMask>
@@ -128,4 +126,23 @@ export const ProfileForm = ({
       </div>
     </form>
   )
+}
+
+ProfileForm.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+  getters: PropTypes.shape({
+    nameOfCard: PropTypes.string,
+    numberOfCard: PropTypes.string,
+    expireDate: PropTypes.string,
+    cvcCode: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ])
+  }).isRequired,
+  setters: PropTypes.shape({
+    setNameOfCard: PropTypes.func.isRequired,
+    setNumberOfCard: PropTypes.func.isRequired,
+    setExpireDate: PropTypes.func.isRequired,
+    setCvcCode: PropTypes.func.isRequired
+  }).isRequired
 }

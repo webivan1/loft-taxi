@@ -1,5 +1,5 @@
 export const AppMobileHeader = () => {
   return (
-    <div>Ho</div>
+    <div>As soon as possible</div>
   )
 }

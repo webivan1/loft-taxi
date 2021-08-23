@@ -1451,7 +1451,7 @@
   resolved "https://registry.yarnpkg.com/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz#497c67a1cef50d1a2459ba60f315e448d2ad87fe"
   integrity sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==
 
-"@material-ui/core@^4.12.3", "@material-ui/core@^4.5.1":
+"@material-ui/core@^4.12.3":
   version "4.12.3"
   resolved "https://registry.yarnpkg.com/@material-ui/core/-/core-4.12.3.tgz#80d665caf0f1f034e52355c5450c0e38b099d3ca"
   integrity sha512-sdpgI/PL56QVsEJldwEe4FFaFTLUqN+rd7sSZiRCdx2E/C7z5yK0y/khAWVBH24tXwto7I1hCzNWfJGZIYJKnw==
@@ -7243,13 +7243,6 @@ lodash.uniq@^4.5.0:
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
-
-loft-taxi-mui-theme@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/loft-taxi-mui-theme/-/loft-taxi-mui-theme-1.2.0.tgz#e9de11e5c4b0c22634a7ab4f60f22319b6178439"
-  integrity sha512-r9HFduzx9iujz9PeLgIlj2mzopzdYjwfStPHWElIJuWOavi/Dx/C9OPvLwloAZh4bnWxm2o6s3Wp/UwgTvS0rg==
-  dependencies:
-    "@material-ui/core" "^4.5.1"
 
 loglevel@^1.6.8:
   version "1.7.1"

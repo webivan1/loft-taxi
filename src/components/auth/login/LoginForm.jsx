@@ -2,7 +2,8 @@ import { ButtonForm } from '../../ui/ButtonForm'
 import { Grid, TextField } from '@material-ui/core'
 import { makeStyles, darken } from '@material-ui/core/styles'
 import { useContext, useState } from 'react'
-import { UserContext } from '../../../userContext'
+import { AuthContext } from '../../../AuthContext'
+import { RouterContext } from '../../../RouterContext'
 
 const useStyles = makeStyles({
   fieldWrapper: {
@@ -37,14 +38,16 @@ const useStyles = makeStyles({
 });
 
 export const LoginForm = () => {
-  const { handleLogIn, handleChangePage } = useContext(UserContext)
+  const { login } = useContext(AuthContext)
+  const { navigateTo } = useContext(RouterContext)
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    handleLogIn()
-    handleChangePage('/map')
+    login(email, password)
+    navigateTo('/map')
   }
 
   const handleChangeEmail = (e) => setEmail(e.target.value)
@@ -53,7 +56,7 @@ export const LoginForm = () => {
   const classes = useStyles()
 
   return (
-    <form noValidate onSubmit={handleSubmit}>
+    <form data-testid="login-form" noValidate onSubmit={handleSubmit}>
       <Grid container className={classes.wrapper}>
         <Grid item xs={12} className={classes.fieldWrapper}>
           <TextField
@@ -63,6 +66,7 @@ export const LoginForm = () => {
             onChange={handleChangeEmail}
             margin="none"
             fullWidth
+            data-testid="login-email"
           />
         </Grid>
         <Grid item xs={12} className={classes.fieldWrapper}>
@@ -74,17 +78,20 @@ export const LoginForm = () => {
             onChange={handleChangePassword}
             margin="none"
             fullWidth
+            data-testid="login-password"
           />
           <div className={classes.forgotPassword}>
-            <a href="#">Забыли пароль?</a>
+            <a href="#/forgot-pass">Забыли пароль?</a>
           </div>
         </Grid>
       </Grid>
-      <ButtonForm fullWidth type="submit">Войти</ButtonForm>
+      <ButtonForm data-testid="login-btn" fullWidth type="submit">
+        Войти
+      </ButtonForm>
 
       <div className={classes.register}>
         Новый пользователь?{' '}
-        <a href="#" onClick={() => handleChangePage('/register')}>
+        <a href="#/register" onClick={() => navigateTo('/register')}>
           Регистрация
         </a>
       </div>

@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
 import { useMediaQuery } from '@material-ui/core'
 import { AppHeader } from './header/AppHeader'
 import { AppMobileHeader } from './header/AppMobileHeader'
@@ -34,4 +35,8 @@ export const AppLayout = ({ children }) => {
       </main>
     </>
   )
+}
+
+AppLayout.propTypes = {
+  children: PropTypes.any.isRequired
 }

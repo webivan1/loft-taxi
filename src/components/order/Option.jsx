@@ -42,22 +42,24 @@ export const Option = ({ title, price, imageUrl, active = false, onClick }) => {
   const classes = useStyles()
 
   const handleClick = () => {
-    onClick({ title })
+    if (typeof onClick === 'function') {
+      onClick({ title })
+    }
   }
 
   return (
-    <Paper onClick={handleClick} className={[classes.root, active ? 'active' : ''].join(' ')}>
-      <div className={classes.title}>
+    <Paper data-testid="option" onClick={handleClick} className={[classes.root, active ? 'active' : ''].join(' ')}>
+      <div data-testid="option-title" className={classes.title}>
         {title}
       </div>
       <div>
         <div className={classes.cost}>Стоимость</div>
-        <div className={classes.price}>
+        <div data-testid="option-price" className={classes.price}>
           {price} ₽
         </div>
       </div>
       <div className={classes.image}>
-        <img src={imageUrl} alt={title} />
+        <img data-testid="option-image" src={imageUrl} alt={title} />
       </div>
     </Paper>
   )

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { ReactComponent as Logo } from '../../assets/logo.svg'
 
@@ -60,4 +61,8 @@ export const AuthLayout = ({ children }) => {
       </div>
     </main>
   )
+}
+
+AuthLayout.propTypes = {
+  children: PropTypes.any.isRequired
 }

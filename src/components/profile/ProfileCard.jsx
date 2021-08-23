@@ -56,13 +56,13 @@ export const ProfileCard = ({ cardNumber, date }) => {
     <Paper className={classes.root}>
       <div className={classes.header}>
         <img className={classes.logo} src={logo} alt="LoftTaxi" />
-        <div className={classes.date}>
+        <div data-testid="card-date" className={classes.date}>
           {date}
         </div>
       </div>
       <div className={classes.cardNumbers}>
         {cardNumberFiltered.map((item, index) => (
-          <div className={classes.cardNumberItem} key={index + '-' + item}>
+          <div data-testid="card-number-item" className={classes.cardNumberItem} key={index + '-' + item}>
             {item}
           </div>
         ))}

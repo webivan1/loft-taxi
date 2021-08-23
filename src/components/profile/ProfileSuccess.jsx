@@ -1,6 +1,7 @@
 import { ButtonForm } from '../ui/ButtonForm'
 import { makeStyles } from '@material-ui/core/styles'
-import PropTypes from 'prop-types'
+import { useContext } from 'react'
+import { RouterContext } from '../../RouterContext'
 
 const useStyles = makeStyles({
   root: {
@@ -20,8 +21,13 @@ const useStyles = makeStyles({
   }
 })
 
-export const ProfileSuccess = ({ onReset }) => {
+export const ProfileSuccess = () => {
+  const { navigateTo } = useContext(RouterContext)
   const classes = useStyles()
+
+  const toMapPage = () => {
+    navigateTo('/map')
+  }
 
   return (
     <div className={classes.root}>
@@ -31,13 +37,9 @@ export const ProfileSuccess = ({ onReset }) => {
       <p className={classes.text}>
         Платёжные данные обновлены. Теперь вы можете заказывать такси.
       </p>
-      <ButtonForm onClick={onReset}>
+      <ButtonForm onClick={toMapPage}>
         Перейти на карту
       </ButtonForm>
     </div>
   )
-}
-
-ProfileSuccess.propTypes = {
-  onReset: PropTypes.func.isRequired
 }

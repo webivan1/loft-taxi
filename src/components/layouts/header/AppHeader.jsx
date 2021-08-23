@@ -2,7 +2,8 @@ import { AppBar, Toolbar } from '@material-ui/core'
 import { ReactComponent as Logo } from '../../../assets/app-logo.svg'
 import { makeStyles } from '@material-ui/core/styles'
 import { useContext } from 'react'
-import { UserContext } from '../../../userContext'
+import { AuthContext } from '../../../AuthContext'
+import { RouterContext } from '../../../RouterContext'
 
 const useStyles = makeStyles({
   root: {
@@ -34,18 +35,34 @@ const useStyles = makeStyles({
 
 export const AppHeader = () => {
   const classes = useStyles()
-  const { handleLogOut, handleChangePage } = useContext(UserContext)
+
+  const {logout} = useContext(AuthContext)
+  const {navigateTo, currentRoute} = useContext(RouterContext)
+
+  const getActiveClass = (route) => {
+    return route === currentRoute ? 'active' : ''
+  }
 
   return (
     <header className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.header}>
-          <Logo className={classes.logo} />
+          <Logo className={classes.logo}/>
 
           <nav className={classes.nav}>
-            <a href="#" onClick={() => handleChangePage('/map')} color="inherit">Карта</a>
-            <a href="#" onClick={() => handleChangePage('/profile')} color="inherit">Профиль</a>
-            <a href="#" onClick={handleLogOut} color="inherit">Выйти</a>
+            <a
+              href="#/map"
+              className={getActiveClass('/map')}
+              onClick={() => navigateTo('/map')}
+              color="inherit"
+            >Карта</a>
+            <a
+              href="#/profile"
+              className={getActiveClass('/profile')}
+              onClick={() => navigateTo('/profile')}
+              color="inherit"
+            >Профиль</a>
+            <a href="#/logout" onClick={logout} color="inherit">Выйти</a>
           </nav>
         </Toolbar>
       </AppBar>

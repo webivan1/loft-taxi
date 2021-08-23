@@ -1,15 +1,16 @@
 import { useContext, useState } from 'react'
-import { UserContext } from '../../../userContext'
+import { RouterContext } from '../../../RouterContext'
 
 export const useRegisterForm = () => {
-  const { handleChangePage } = useContext(UserContext)
+  const { navigateTo } = useContext(RouterContext)
+
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    handleChangePage('/login')
+    navigateTo('/login')
   }
 
   const handleChangeEmail = (e) => setEmail(e.target.value)
@@ -24,6 +25,6 @@ export const useRegisterForm = () => {
     handleChangeEmail,
     handleChangeName,
     handleChangePassword,
-    handleChangePage
+    navigateTo
   }
 }
