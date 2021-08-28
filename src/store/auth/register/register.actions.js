@@ -16,16 +16,16 @@ export const error = message => ({
   payload: message
 })
 
-export const startFetching = {
+export const startFetching = () => ({
   type: REGISTER_START_FETCHING
-}
+})
 
-export const stopFetching = {
+export const stopFetching = () => ({
   type: REGISTER_STOP_FETCHING
-}
+})
 
 export const addUserAsync = fields => async dispatch => {
-  dispatch(startFetching)
+  dispatch(startFetching())
   try {
     const response = await registerUserApi(fields)
     if (!response.success) {
@@ -36,7 +36,7 @@ export const addUserAsync = fields => async dispatch => {
   } catch (e) {
     dispatch(error(e.message))
   } finally {
-    dispatch(stopFetching)
+    dispatch(stopFetching())
   }
 }
 
