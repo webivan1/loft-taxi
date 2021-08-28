@@ -1,11 +1,12 @@
 import { render } from '@testing-library/react'
 import { ProfileForm } from './ProfileForm'
+import { renderWithRedux } from '../../tests/utils/render'
 
 describe('ProfileForm', () => {
   it('should render form', () => {
     const fn = jest.fn()
     const setter = jest.fn()
-    render(
+    renderWithRedux(
       <ProfileForm
         onSubmit={fn}
         getters={{

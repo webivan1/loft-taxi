@@ -1,5 +1,6 @@
 import { render } from '@testing-library/react'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from '@material-ui/core/styles'
 import { actionAsyncMiddleware } from '../../store/middleware/actionAsyncMiddleware'
@@ -20,9 +21,11 @@ export const renderWithRedux = (
   return {
     ...render(
       <Provider store={store}>
-        <ThemeProvider theme={theme}>
-          {component}
-        </ThemeProvider>
+        <BrowserRouter>
+          <ThemeProvider theme={theme}>
+            {component}
+          </ThemeProvider>
+        </BrowserRouter>
       </Provider>
     ),
     store,

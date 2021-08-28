@@ -1,16 +1,12 @@
-import { render } from '@testing-library/react'
-import { ThemeProvider } from '@material-ui/core/styles'
-import theme from '../../theme'
 import { AppLayout } from './AppLayout'
+import { renderWithRedux } from '../../tests/utils/render'
 
 describe('AppLayout', () => {
   it('should render component', () => {
-    const { getByText } = render(
-      <ThemeProvider theme={theme}>
-        <AppLayout>
-          <p>Child test text</p>
-        </AppLayout>
-      </ThemeProvider>
+    const { getByText } = renderWithRedux(
+      <AppLayout>
+        <p>Child test text</p>
+      </AppLayout>
     )
 
     expect(getByText('Child test text')).toBeInTheDocument()

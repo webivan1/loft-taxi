@@ -2,9 +2,7 @@ import { loginReducer } from './login.reducer'
 import { createStore, applyMiddleware } from 'redux'
 import { error, loginAsync, startFetching, stopFetching, success } from './login.actions'
 import { actionAsyncMiddleware } from '../../middleware/actionAsyncMiddleware'
-import { loginUserApi } from './login.api'
-
-jest.mock('./login.api')
+import * as api from './login.api'
 
 describe('User reducer', () => {
   let store;
@@ -44,7 +42,7 @@ describe('User reducer', () => {
       password: 'secret'
     }
     const fn = jest.fn()
-    loginUserApi.mockImplementationOnce(fields => {
+    jest.spyOn(api, 'loginUserApi').mockImplementationOnce(async fields => {
       fn(fields)
       return {
         success: true,
@@ -62,7 +60,7 @@ describe('User reducer', () => {
       password: 'secret'
     }
     const errorMessage = 'Test error message'
-    loginUserApi.mockImplementationOnce(() => ({
+    jest.spyOn(api, 'loginUserApi').mockImplementationOnce(async () => ({
       success: false,
       error: errorMessage
     }))

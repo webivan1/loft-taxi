@@ -4,6 +4,8 @@ import InputMask from 'react-input-mask'
 import { makeStyles } from '@material-ui/core/styles'
 import { ProfileCard } from './ProfileCard'
 import { ButtonForm } from '../ui/ButtonForm'
+import { useSelector } from 'react-redux'
+import { Alert } from '@material-ui/lab'
 
 const useStyles = makeStyles(theme => ({
   gridWrapper: {
@@ -47,6 +49,9 @@ const useStyles = makeStyles(theme => ({
         borderBottom: '2px solid #E4E4E4'
       }
     }
+  },
+  notify: {
+    marginBottom: '15px'
   }
 }))
 
@@ -56,6 +61,7 @@ export const ProfileForm = ({
   setters: { setNameOfCard, setNumberOfCard, setExpireDate, setCvcCode }
 }) => {
   const classes = useStyles()
+  const { loader, error } = useSelector(({ profileForm }) => profileForm)
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -64,6 +70,8 @@ export const ProfileForm = ({
 
   return (
     <form noValidate action="#" method="POST" onSubmit={handleSubmit}>
+      {error && <Alert className={classes.notify} severity="error">{error}</Alert>}
+
       <div className={classes.gridWrapper}>
         <div className={classes.formColumn}>
           <TextField
@@ -120,7 +128,7 @@ export const ProfileForm = ({
         </div>
       </div>
       <div className={classes.btn}>
-        <ButtonForm type="submit">
+        <ButtonForm disabled={loader} type="submit">
           Сохранить
         </ButtonForm>
       </div>

@@ -2,9 +2,7 @@ import { registerReducer } from './register.reducer'
 import { createStore, applyMiddleware } from 'redux'
 import { error, addUserAsync, startFetching, stopFetching, success } from './register.actions'
 import { actionAsyncMiddleware } from '../../middleware/actionAsyncMiddleware'
-import { registerUserApi } from './register.api'
-
-jest.mock('./register.api')
+import * as api from './register.api'
 
 describe('Register reducer', () => {
   let store;
@@ -45,7 +43,7 @@ describe('Register reducer', () => {
       name: 'Test'
     }
     const fn = jest.fn()
-    registerUserApi.mockImplementationOnce(fields => {
+    jest.spyOn(api, 'registerUserApi').mockImplementationOnce(async fields => {
       fn(fields)
       return {
         success: true,
@@ -64,7 +62,7 @@ describe('Register reducer', () => {
       name: 'Test'
     }
     const errorMessage = 'Test error message'
-    registerUserApi.mockImplementationOnce(() => ({
+    jest.spyOn(api, 'registerUserApi').mockImplementationOnce(async () => ({
       success: false,
       error: errorMessage
     }))

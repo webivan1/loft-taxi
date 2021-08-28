@@ -1,8 +1,8 @@
-import { render } from '@testing-library/react'
 import { MapPage } from './MapPage'
+import { renderWithRedux } from '../../tests/utils/render'
 
 describe('MapPage', () => {
   it('should render component', () => {
-    render(<MapPage />)
+    renderWithRedux(<MapPage />)
   })
 })
