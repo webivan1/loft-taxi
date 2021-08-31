@@ -1,26 +1,17 @@
 import { registerReducer } from './register.reducer'
-import { createStore, applyMiddleware } from 'redux'
-import { error, addUserAsync, startFetching, stopFetching, success } from './register.actions'
-import { actionAsyncMiddleware } from '../../middleware/actionAsyncMiddleware'
+import { applyMiddleware, createStore } from 'redux'
+import { error, addUserAsync, success } from './register.actions'
 import * as api from './register.api'
+import createSagaMiddleware from 'redux-saga'
+import { rootSaga } from '../../root.sagas'
 
 describe('Register reducer', () => {
   let store;
 
   beforeEach(() => {
-    store = createStore(registerReducer, applyMiddleware(actionAsyncMiddleware))
-  })
-
-  it('action - startFetching', () => {
-    expect(store.getState().loader).toBeFalsy()
-    store.dispatch(startFetching())
-    expect(store.getState().loader).toBeTruthy()
-  })
-
-  it('action - stopFetching', () => {
-    expect(store.getState().loader).toBeFalsy()
-    store.dispatch(stopFetching())
-    expect(store.getState().loader).toBeFalsy()
+    const saga = createSagaMiddleware()
+    store = createStore(registerReducer, applyMiddleware(saga))
+    saga.run(rootSaga)
   })
 
   it('action - error', () => {

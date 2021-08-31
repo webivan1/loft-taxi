@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import { TextField } from '@material-ui/core'
 import InputMask from 'react-input-mask'
 import { makeStyles } from '@material-ui/core/styles'
-import { ProfileCard } from './ProfileCard'
+import { PaymentCard } from './PaymentCard'
 import { ButtonForm } from '../ui/ButtonForm'
 import { useSelector } from 'react-redux'
 import { Alert } from '@material-ui/lab'
@@ -55,13 +55,13 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export const ProfileForm = ({
+export const PaymentForm = ({
   onSubmit,
   getters: { nameOfCard, numberOfCard, expireDate, cvcCode },
   setters: { setNameOfCard, setNumberOfCard, setExpireDate, setCvcCode }
 }) => {
   const classes = useStyles()
-  const { loader, error } = useSelector(({ profileForm }) => profileForm)
+  const { loader, error } = useSelector(({ paymentForm }) => paymentForm)
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -124,7 +124,7 @@ export const ProfileForm = ({
           </div>
         </div>
         <div className={classes.cardColumn}>
-          <ProfileCard cardNumber={numberOfCard} date={expireDate}/>
+          <PaymentCard cardNumber={numberOfCard} date={expireDate}/>
         </div>
       </div>
       <div className={classes.btn}>
@@ -136,7 +136,7 @@ export const ProfileForm = ({
   )
 }
 
-ProfileForm.propTypes = {
+PaymentForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   getters: PropTypes.shape({
     nameOfCard: PropTypes.string,

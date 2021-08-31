@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
-import { ProfileForm } from './ProfileForm'
+import { PaymentForm } from './PaymentForm'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { useDispatch, useSelector } from 'react-redux'
 import { Alert } from '@material-ui/lab'
 import { CircularProgress } from '@material-ui/core'
-import { fetchProfileDetailAsync } from '../../store/profile/detail/profile-detail.actions'
+import { fetchPaymentDetailAsync } from '../../store/payment/detail/payment-detail.actions'
 
 const useStyles = makeStyles({
   root: {
@@ -28,11 +28,11 @@ const useStyles = makeStyles({
   }
 })
 
-export const ProfileFormWrapper = ({ onSubmit }) => {
+export const PaymentFormWrapper = ({ onSubmit }) => {
   const classes = useStyles()
 
   const dispatch = useDispatch()
-  const { loader, error, detail } = useSelector(({ profileDetail }) => profileDetail)
+  const { loader, error, detail } = useSelector(({ paymentDetail }) => paymentDetail)
 
   const [nameOfCard, setNameOfCard] = useState('')
   const [numberOfCard, setNumberOfCard] = useState('')
@@ -40,7 +40,7 @@ export const ProfileFormWrapper = ({ onSubmit }) => {
   const [cvcCode, setCvcCode] = useState('')
 
   useEffect(() => {
-    dispatch(fetchProfileDetailAsync())
+    !loader && dispatch(fetchPaymentDetailAsync())
   }, [dispatch])
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export const ProfileFormWrapper = ({ onSubmit }) => {
       {loader ? (
         <CircularProgress />
       ) : (
-        <ProfileForm
+        <PaymentForm
           onSubmit={onSubmit}
           setters={{
             setNameOfCard,
@@ -88,6 +88,6 @@ export const ProfileFormWrapper = ({ onSubmit }) => {
   )
 }
 
-ProfileFormWrapper.propTypes = {
+PaymentFormWrapper.propTypes = {
   onSubmit: PropTypes.func.isRequired
 }

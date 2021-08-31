@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper } from '@material-ui/core'
-import { ProfileSuccess } from '../../components/profile/ProfileSuccess'
-import { ProfileFormWrapper } from '../../components/profile/ProfileFormWrapper'
+import { PaymentSuccess } from '../../components/payment/PaymentSuccess'
+import { PaymentFormWrapper } from '../../components/payment/PaymentFormWrapper'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetForm, updateProfileAsync } from '../../store/profile/form/profile-form.actions'
+import { resetForm, updatePaymentAsync } from '../../store/payment/form/payment-form.actions'
 
 const useStyles = makeStyles({
   background: {
@@ -34,10 +34,10 @@ const useStyles = makeStyles({
 export const ProfilePage = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const { success } = useSelector(({ profileForm }) => profileForm)
+  const { success } = useSelector(({ paymentForm }) => paymentForm)
 
-  const handleUpdatedProfile = (form) => {
-    dispatch(updateProfileAsync(form))
+  const handleUpdatedPayment = (form) => {
+    dispatch(updatePaymentAsync(form))
   }
 
   useEffect(() => {
@@ -48,9 +48,9 @@ export const ProfilePage = () => {
     <div className={classes.background}>
       <Paper className={classes.modal}>
         {!success ? (
-          <ProfileFormWrapper onSubmit={handleUpdatedProfile} />
+          <PaymentFormWrapper onSubmit={handleUpdatedPayment} />
         ) : (
-          <ProfileSuccess />
+          <PaymentSuccess />
         )}
       </Paper>
     </div>

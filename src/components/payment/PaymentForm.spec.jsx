@@ -1,13 +1,12 @@
-import { render } from '@testing-library/react'
-import { ProfileForm } from './ProfileForm'
+import { PaymentForm } from './PaymentForm'
 import { renderWithRedux } from '../../tests/utils/render'
 
-describe('ProfileForm', () => {
+describe('PaymentForm', () => {
   it('should render form', () => {
     const fn = jest.fn()
     const setter = jest.fn()
     renderWithRedux(
-      <ProfileForm
+      <PaymentForm
         onSubmit={fn}
         getters={{
           nameOfCard: 'Test',

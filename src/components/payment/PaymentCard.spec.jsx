@@ -1,13 +1,13 @@
 import { render } from '@testing-library/react'
-import { ProfileCard } from './ProfileCard'
+import { PaymentCard } from './PaymentCard'
 
-describe('ProfileCard', () => {
+describe('PaymentCard', () => {
   it('should render component with props', () => {
     const props = {
       cardNumber: '1111 2222 3333 4444',
       date: '08/28'
     }
-    const { getByTestId, getAllByTestId } = render(<ProfileCard {...props} />)
+    const { getByTestId, getAllByTestId } = render(<PaymentCard {...props} />)
 
     expect(getByTestId('card-date').textContent).toMatch(props.date)
 
@@ -27,7 +27,7 @@ describe('ProfileCard', () => {
       cardNumber: '0-1-HelloWorld-2',
       date: 'DateTest'
     }
-    const { getByTestId } = render(<ProfileCard {...props} />)
+    const { getByTestId } = render(<PaymentCard {...props} />)
 
     expect(getByTestId('card-date').textContent).toMatch(props.date)
     expect(getByTestId('card-number-item').textContent).toMatch('012')

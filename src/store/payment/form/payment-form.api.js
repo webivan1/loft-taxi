@@ -1,4 +1,4 @@
 import http from '../../../services/http'
 
-export const updateProfileApi = fields => http.post('/card', fields)
+export const updatePaymentApi = fields => http.post('/card', fields)
   .then(({ data }) => data)

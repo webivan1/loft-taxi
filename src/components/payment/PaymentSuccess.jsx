@@ -20,7 +20,7 @@ const useStyles = makeStyles({
   }
 })
 
-export const ProfileSuccess = () => {
+export const PaymentSuccess = () => {
   const classes = useStyles()
   const router = useHistory()
 

@@ -1,4 +1,4 @@
 import http from '../../../services/http'
 
-export const fetchProfileDetailApi = () => http.get('/card')
+export const fetchPaymentDetailApi = () => http.get('/card')
   .then(({ data }) => data)

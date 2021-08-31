@@ -47,7 +47,7 @@ const useStyles = makeStyles({
   }
 })
 
-export const ProfileCard = ({ cardNumber, date }) => {
+export const PaymentCard = ({ cardNumber, date }) => {
   const classes = useStyles()
   const cardNumberFiltered = cardNumber.replace(/[^0-9\s]+/g, '')
     .trim().split(' ')
@@ -62,7 +62,11 @@ export const ProfileCard = ({ cardNumber, date }) => {
       </div>
       <div className={classes.cardNumbers}>
         {cardNumberFiltered.map((item, index) => (
-          <div data-testid="card-number-item" className={classes.cardNumberItem} key={index + '-' + item}>
+          <div
+            data-testid="card-number-item"
+            className={classes.cardNumberItem}
+            key={index + '-' + item}
+          >
             {item}
           </div>
         ))}
@@ -75,7 +79,7 @@ export const ProfileCard = ({ cardNumber, date }) => {
   )
 }
 
-ProfileCard.propTypes = {
+PaymentCard.propTypes = {
   cardNumber: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired
 }

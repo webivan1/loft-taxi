@@ -1,6 +1,5 @@
 import {
-  REGISTER_START_FETCHING,
-  REGISTER_STOP_FETCHING,
+  REGISTER_ADD_USER,
   REGISTER_ERROR,
   REGISTER_SUCCESS
 } from './register.constants'
@@ -14,14 +13,12 @@ const initialState = {
 
 export const registerReducer = (state = initialState, { type, payload = null }) => {
   switch (type) {
-    case REGISTER_START_FETCHING:
+    case REGISTER_ADD_USER:
       return { ...state, error: null, success: null, loader: true }
-    case REGISTER_STOP_FETCHING:
-      return { ...state, loader: false }
     case REGISTER_ERROR:
-      return { ...state, error: payload, success: null }
+      return { ...state, error: payload, success: null, loader: false }
     case REGISTER_SUCCESS:
-      return { ...state, success: payload }
+      return { ...state, success: payload, loader: false }
     case LOGOUT:
       return { ...initialState }
     default:
