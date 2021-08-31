@@ -1,8 +1,8 @@
-import { render } from '@testing-library/react'
 import { ProfilePage } from './ProfilePage'
+import { renderWithRedux } from '../../tests/utils/render'
 
 describe('ProfilePage', () => {
   it('should render component', () => {
-    render(<ProfilePage />)
+    renderWithRedux(<ProfilePage />)
   })
 })

@@ -1,9 +1,11 @@
 import { ButtonForm } from '../../ui/ButtonForm'
+import { Link } from 'react-router-dom'
 import { Grid, TextField } from '@material-ui/core'
 import { makeStyles, darken } from '@material-ui/core/styles'
-import { useContext, useState } from 'react'
-import { AuthContext } from '../../../AuthContext'
-import { RouterContext } from '../../../RouterContext'
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Alert } from '@material-ui/lab'
+import { loginAsync } from '../../../store/auth/login/login.actions'
 
 const useStyles = makeStyles({
   fieldWrapper: {
@@ -35,19 +37,20 @@ const useStyles = makeStyles({
       }
     }
   },
+  notify: {
+    marginBottom: '15px'
+  }
 });
 
 export const LoginForm = () => {
-  const { login } = useContext(AuthContext)
-  const { navigateTo } = useContext(RouterContext)
-
+  const dispatch = useDispatch()
+  const { loader, error } = useSelector(({ login }) => login)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
     event.preventDefault()
-    login(email, password)
-    navigateTo('/map')
+    dispatch(loginAsync({ email, password }))
   }
 
   const handleChangeEmail = (e) => setEmail(e.target.value)
@@ -80,20 +83,23 @@ export const LoginForm = () => {
             fullWidth
             data-testid="login-password"
           />
-          <div className={classes.forgotPassword}>
-            <a href="#/forgot-pass">Забыли пароль?</a>
-          </div>
+          {/*<div className={classes.forgotPassword}>*/}
+          {/*  <a href="#/forgot-pass">Забыли пароль?</a>*/}
+          {/*</div>*/}
         </Grid>
       </Grid>
-      <ButtonForm data-testid="login-btn" fullWidth type="submit">
+
+      {error && <Alert className={classes.notify} severity="error">{error}</Alert>}
+
+      <ButtonForm disabled={loader} data-testid="login-btn" fullWidth type="submit">
         Войти
       </ButtonForm>
 
       <div className={classes.register}>
         Новый пользователь?{' '}
-        <a href="#/register" onClick={() => navigateTo('/register')}>
+        <Link to="/register">
           Регистрация
-        </a>
+        </Link>
       </div>
     </form>
   )

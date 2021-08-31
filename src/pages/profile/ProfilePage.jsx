@@ -1,8 +1,10 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper } from '@material-ui/core'
 import { ProfileSuccess } from '../../components/profile/ProfileSuccess'
 import { ProfileFormWrapper } from '../../components/profile/ProfileFormWrapper'
+import { useDispatch, useSelector } from 'react-redux'
+import { resetForm, updateProfileAsync } from '../../store/profile/form/profile-form.actions'
 
 const useStyles = makeStyles({
   background: {
@@ -31,17 +33,21 @@ const useStyles = makeStyles({
 
 export const ProfilePage = () => {
   const classes = useStyles()
-  const [isShowForm, setIsShowForm] = useState(true)
+  const dispatch = useDispatch()
+  const { success } = useSelector(({ profileForm }) => profileForm)
 
   const handleUpdatedProfile = (form) => {
-    setIsShowForm(false)
-    console.log(form)
+    dispatch(updateProfileAsync(form))
   }
+
+  useEffect(() => {
+    success && dispatch(resetForm())
+  }, [dispatch])
 
   return (
     <div className={classes.background}>
       <Paper className={classes.modal}>
-        {isShowForm ? (
+        {!success ? (
           <ProfileFormWrapper onSubmit={handleUpdatedProfile} />
         ) : (
           <ProfileSuccess />

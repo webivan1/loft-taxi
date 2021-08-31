@@ -2,18 +2,25 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom'
+import { localStorageMock } from './tests/utils/localStorage'
 
 if (typeof window.URL.createObjectURL === 'undefined') {
   Object.defineProperty(window.URL, 'createObjectURL', { value: () => {} })
 }
 
-jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
+jest.mock('mapbox-gl', () => ({
   GeolocateControl: jest.fn(),
-  Map: jest.fn(() => ({
-    addControl: jest.fn(),
-    on: jest.fn(),
-    remove: jest.fn(),
-  })),
+  Map: (() => {
+    const map = function() { }
+
+    map.prototype.addControl = jest.fn()
+    map.prototype.on = jest.fn()
+    map.prototype.remove = jest.fn()
+
+    return map
+  })(),
   NavigationControl: jest.fn(),
 }))
+
+window.localStorage = localStorageMock;

@@ -1,5 +1,7 @@
 import { ButtonForm } from '../../ui/ButtonForm'
+import { Link } from 'react-router-dom'
 import { Grid, TextField } from '@material-ui/core'
+import { Alert } from '@material-ui/lab'
 import { useRegisterForm } from './useRegisterForm'
 import { makeStyles, darken } from '@material-ui/core/styles'
 
@@ -33,6 +35,9 @@ const useStyles = makeStyles({
       }
     }
   },
+  notify: {
+    marginBottom: '15px'
+  }
 });
 
 export const RegisterForm = () => {
@@ -40,11 +45,13 @@ export const RegisterForm = () => {
     email,
     name,
     password,
+    loader,
+    error,
+    success,
     handleSubmit,
     handleChangeEmail,
     handleChangeName,
-    handleChangePassword,
-    navigateTo
+    handleChangePassword
   } = useRegisterForm()
 
   const classes = useStyles()
@@ -90,15 +97,19 @@ export const RegisterForm = () => {
           />
         </Grid>
       </Grid>
-      <ButtonForm data-testid="reg-btn" fullWidth type="submit">
+
+      {error && <Alert className={classes.notify} severity="error">{error}</Alert>}
+      {success && <Alert className={classes.notify} severity="success">{success}</Alert>}
+
+      <ButtonForm disabled={loader} data-testid="reg-btn" fullWidth type="submit">
         Зарегистрироваться
       </ButtonForm>
 
       <div className={classes.register}>
         Уже зарегестрированны?{' '}
-        <a href="#/login" onClick={() => navigateTo('/login')}>
+        <Link to={'/'}>
           Войти
-        </a>
+        </Link>
       </div>
     </form>
   )

@@ -1,30 +1,49 @@
-import { useContext, useState } from 'react'
-import { RouterContext } from '../../../RouterContext'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { addUserAsync } from '../../../store/auth/register/register.actions'
+import { useHistory } from 'react-router-dom'
 
 export const useRegisterForm = () => {
-  const { navigateTo } = useContext(RouterContext)
+  const dispatch = useDispatch()
+  const router = useHistory()
+  const { loader, error, success } = useSelector(({ register }) => register)
 
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
 
-  const handleSubmit = (event) => {
+  const handleSubmit = event => {
+    if (loader) {
+      return
+    }
+
     event.preventDefault()
-    navigateTo('/login')
+    dispatch(addUserAsync({ email, name, password }))
   }
 
   const handleChangeEmail = (e) => setEmail(e.target.value)
   const handleChangeName = (e) => setName(e.target.value)
   const handleChangePassword = (e) => setPassword(e.target.value)
 
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        // go to login page
+        router.push('/')
+      }, 2000)
+    }
+  }, [success])
+
   return {
     email,
     name,
     password,
+    loader,
+    error,
+    success,
     handleSubmit,
     handleChangeEmail,
     handleChangeName,
-    handleChangePassword,
-    navigateTo
+    handleChangePassword
   }
 }

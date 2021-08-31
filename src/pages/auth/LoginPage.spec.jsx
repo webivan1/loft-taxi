@@ -1,8 +1,8 @@
-import { render } from '@testing-library/react'
 import { LoginPage } from './LoginPage'
+import { renderWithRedux } from '../../tests/utils/render'
 
 describe('LoginPage', () => {
   it('should render component', () => {
-    render(<LoginPage />)
+    renderWithRedux(<LoginPage />)
   })
 })

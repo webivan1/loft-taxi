@@ -1,22 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { ThemeProvider } from '@material-ui/core/styles'
-import theme from './theme'
 import { App } from './App'
-import { RouterProvider } from './RouterContext'
-import { AuthProvider } from './AuthContext'
+import store from './store'
+import theme from './theme'
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <CssBaseline/>
-      <RouterProvider>
-        <AuthProvider>
-          <App/>
-        </AuthProvider>
-      </RouterProvider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <App />
+      </ThemeProvider>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 )
