@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core'
+import { TextField } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import PropTypes from 'prop-types'
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
-import { startDestinationOptions, finishDestinationOptions, options } from './data'
+import { options } from './data'
 import { Option } from './Option'
 import { ButtonForm } from '../ui/ButtonForm'
+import { Alert, Autocomplete } from '@material-ui/lab'
+import { useOrderForm } from './useOrderForm'
 
 const useStyles = makeStyles({
   fieldWrapper: {
@@ -39,43 +39,49 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyItems: 'between',
     gap: '20px'
+  },
+  notify: {
+    marginBottom: '15px'
   }
 })
 
-const SelectForm = ({ className, label, id, value, onChange, children }) => (
-  <FormControl fullWidth className={className}>
-    <InputLabel id={id}>{label}</InputLabel>
-    <Select
-      labelId={id}
-      value={value}
-      onChange={event => onChange(event.target.value)}
-      IconComponent={ExpandMoreIcon}
-      data-testid={id}
-    >
-      {children}
-    </Select>
-  </FormControl>
+const SelectForm = ({ className, label, id, value, onChange, options, loading = false }) => (
+  <Autocomplete
+    id={id}
+    loading={loading}
+    className={className}
+    fullWidth
+    options={options}
+    getOptionDisabled={({ disabled }) => disabled}
+    getOptionLabel={({ name }) => name}
+    getOptionSelected={({ name }) => value === name}
+    onChange={(event, value) => onChange(value?.name)}
+    renderInput={(params) =>
+      <TextField
+        {...params}
+        label={label}
+      />
+    }
+  />
 )
 
 export const OrderForm = ({ onSubmit }) => {
   const classes = useStyles()
-
-  const [startLocation, setStartLocation] = useState('')
-  const [finishLocation, setFinishLocation] = useState('')
-  const [option, setOption] = useState('')
-
-  const handleOptionClick = ({ title }) => {
-    setOption(title)
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    onSubmit({
-      start: startLocation,
-      finish: finishLocation,
-      option,
-    })
-  }
+  const {
+    optionLoader,
+    formLoader,
+    startDestinationOptions,
+    finishDestinationOptions,
+    startLocation,
+    finishLocation,
+    option,
+    error,
+    formRequestError,
+    handleSubmit,
+    handleSetStartLocation,
+    handleSetFinishLocation,
+    handleOptionClick
+  } = useOrderForm(onSubmit)
 
   return (
     <form action="#" method="POST" onSubmit={handleSubmit}>
@@ -85,27 +91,19 @@ export const OrderForm = ({ onSubmit }) => {
           id="from-destination"
           className={classes.select}
           value={startLocation}
-          onChange={setStartLocation}
-        >
-          {startDestinationOptions.map(({ value, label }) => (
-            <MenuItem key={value} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </SelectForm>
+          options={startDestinationOptions}
+          loading={optionLoader}
+          onChange={handleSetStartLocation}
+        />
         <SelectForm
           label="Куда"
           id="to-destination"
           className={[classes.select, 'no-border'].join(' ')}
           value={finishLocation}
-          onChange={setFinishLocation}
-        >
-          {finishDestinationOptions.map(({ value, label }) => (
-            <MenuItem key={value} value={value}>
-              {label}
-            </MenuItem>
-          ))}
-        </SelectForm>
+          options={finishDestinationOptions}
+          loading={optionLoader}
+          onChange={handleSetFinishLocation}
+        />
       </div>
       <div className={classes.wrapOptions}>
         <div className={classes.options}>
@@ -118,7 +116,14 @@ export const OrderForm = ({ onSubmit }) => {
             />
           ))}
         </div>
-        <ButtonForm fullWidth type="submit">
+
+        {(error || formRequestError) &&
+          <Alert className={classes.notify} severity="error">
+            {error ?? formRequestError}
+          </Alert>
+        }
+
+        <ButtonForm disabled={formLoader} fullWidth type="submit">
           Заказать
         </ButtonForm>
       </div>

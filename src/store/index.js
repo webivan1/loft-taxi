@@ -8,18 +8,19 @@ import { registerReducer } from './auth/register/register.reducer'
 import { userReducer } from './user/user.reducer'
 import { paymentDetailReducer } from './payment/detail/payment-detail.reducer'
 import { paymentFormReducer } from './payment/form/payment-form.reducer'
+import { addressReducer } from './address/address.reducer'
+import { routeReducer } from './route/route.reducer'
 
 export const sagaMiddleware = createSagaMiddleware()
-export function runSaga() {
-  sagaMiddleware.run(rootSaga)
-}
 
 export const reducers = {
   login: loginReducer,
   register: registerReducer,
   user: userReducer,
   paymentDetail: paymentDetailReducer,
-  paymentForm: paymentFormReducer
+  paymentForm: paymentFormReducer,
+  address: addressReducer,
+  route: routeReducer
 }
 
 export default createStore(
@@ -27,4 +28,4 @@ export default createStore(
   applyMiddleware(sagaMiddleware, logger)
 )
 
-runSaga()
+sagaMiddleware.run(rootSaga)

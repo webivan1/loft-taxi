@@ -1,8 +1,11 @@
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper } from '@material-ui/core'
 import { OrderForm } from '../../components/order/OrderForm'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { OrderSuccess } from '../../components/order/OrderSuccess'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAddresses } from '../../store/address/address.actions'
+import { fetchRoutesAsync, routesReset } from '../../store/route/route.actions'
 
 const useStyles = makeStyles({
   root: {
@@ -18,20 +21,25 @@ const useStyles = makeStyles({
 
 export const MapPage = () => {
   const classes = useStyles()
-  const [isSubmitted, setSubmit] = useState(false)
+  const dispatch = useDispatch()
+  const addressList = useSelector(({ address }) => address.list)
+  const isShowRoute = useSelector(({ route }) => route.map && route.map.length > 0)
 
   const handleSubmittedForm = (form) => {
-    setSubmit(true)
-    console.log(form)
+    dispatch(fetchRoutesAsync(form))
   }
 
   const handleResetSubmit = () => {
-    setSubmit(false)
+    dispatch(routesReset())
   }
+
+  useEffect(() => {
+    !addressList.length && dispatch(fetchAddresses())
+  }, [dispatch])
 
   return (
     <Paper className={classes.root}>
-      {isSubmitted ? (
+      {isShowRoute ? (
         <OrderSuccess onReset={handleResetSubmit} />
       ) : (
         <OrderForm onSubmit={handleSubmittedForm} />
