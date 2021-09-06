@@ -9,7 +9,7 @@ export function *fetchAddressListSaga() {
     if ('addresses' in response) {
       yield put(success(response.addresses))
     } else {
-      yield put(error('Error getting address list'))
+      yield put(error(response.error ?? 'Error getting address list'))
     }
   } catch (e) {
     yield put(error(e.message))

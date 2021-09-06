@@ -48,6 +48,7 @@ const useStyles = makeStyles({
 const SelectForm = ({ className, label, id, value, onChange, options, loading = false }) => (
   <Autocomplete
     id={id}
+    data-testid={id}
     loading={loading}
     className={className}
     fullWidth
