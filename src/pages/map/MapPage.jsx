@@ -6,6 +6,8 @@ import { OrderSuccess } from '../../components/order/OrderSuccess'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAddresses } from '../../store/address/address.actions'
 import { fetchRoutesAsync, routesReset } from '../../store/route/route.actions'
+import { usePaymentDetail } from '../../components/payment/usePaymentDetail'
+import { OrderCanceled } from '../../components/order/OrderCanceled'
 
 const useStyles = makeStyles({
   root: {
@@ -24,6 +26,7 @@ export const MapPage = () => {
   const dispatch = useDispatch()
   const addressList = useSelector(({ address }) => address.list)
   const isShowRoute = useSelector(({ route }) => route.map && route.map.length > 0)
+  const { detail, loader, canPay, fetchDetail } = usePaymentDetail();
 
   const handleSubmittedForm = (form) => {
     dispatch(fetchRoutesAsync(form))
@@ -35,14 +38,21 @@ export const MapPage = () => {
 
   useEffect(() => {
     !addressList.length && dispatch(fetchAddresses())
+    !loader && !detail && fetchDetail();
   }, [dispatch])
 
   return (
     <Paper className={classes.root}>
-      {isShowRoute ? (
-        <OrderSuccess onReset={handleResetSubmit} />
+      {!canPay ? (
+        <OrderCanceled />
       ) : (
-        <OrderForm onSubmit={handleSubmittedForm} />
+        <>
+          {isShowRoute ? (
+            <OrderSuccess onReset={handleResetSubmit} />
+          ) : (
+            <OrderForm onSubmit={handleSubmittedForm} />
+          )}
+        </>
       )}
     </Paper>
   )

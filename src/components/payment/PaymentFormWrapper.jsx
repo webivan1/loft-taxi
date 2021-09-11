@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react'
 import { PaymentForm } from './PaymentForm'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
-import { useDispatch, useSelector } from 'react-redux'
 import { Alert } from '@material-ui/lab'
 import { CircularProgress } from '@material-ui/core'
-import { fetchPaymentDetailAsync } from '../../store/payment/detail/payment-detail.actions'
+import { usePaymentDetail } from './usePaymentDetail'
+import { useDispatch } from 'react-redux'
+import { resetForm } from '../../store/payment/form/payment-form.actions'
 
 const useStyles = makeStyles({
   root: {
@@ -30,25 +31,23 @@ const useStyles = makeStyles({
 
 export const PaymentFormWrapper = ({ onSubmit }) => {
   const classes = useStyles()
-
   const dispatch = useDispatch()
-  const { loader, error, detail } = useSelector(({ paymentDetail }) => paymentDetail)
-
+  const { loader, error, detail, fetchDetail } = usePaymentDetail()
   const [nameOfCard, setNameOfCard] = useState('')
   const [numberOfCard, setNumberOfCard] = useState('')
   const [expireDate, setExpireDate] = useState('')
   const [cvcCode, setCvcCode] = useState('')
 
   useEffect(() => {
-    !loader && dispatch(fetchPaymentDetailAsync())
-  }, [dispatch])
+    dispatch(resetForm())
 
-  useEffect(() => {
     if (detail) {
       setNameOfCard(detail.cardName ?? '')
       setNumberOfCard(detail.cardNumber ?? '')
       setExpireDate(detail.expiryDate ?? '')
       setCvcCode(detail.cvc ?? '')
+    } else if (!loader) {
+      fetchDetail()
     }
   }, [detail])
 
@@ -63,10 +62,10 @@ export const PaymentFormWrapper = ({ onSubmit }) => {
         </p>
       </div>
 
-      {/*{error && <Alert className={classes.notify} severity="error">{error}</Alert>}*/}
+      {error && <Alert className={classes.notify} severity="error">{error}</Alert>}
 
       {loader ? (
-        <CircularProgress />
+        <CircularProgress/>
       ) : (
         <PaymentForm
           onSubmit={onSubmit}

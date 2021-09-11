@@ -1,6 +1,8 @@
 import { useEffect, useRef } from 'react'
 import mapbox from 'mapbox-gl'
 
+mapbox.accessToken = process.env.REACT_APP_MAPBOX_API_KEY
+
 export const useMap = () => {
   const mapContainer = useRef(null)
   const map = useRef(null)

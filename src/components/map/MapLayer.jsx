@@ -1,10 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles'
-import mapbox from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { useMap } from './useMap'
 import { useRoute } from './useRoute'
-
-mapbox.accessToken = process.env.REACT_APP_MAPBOX_API_KEY
 
 const useStyles = makeStyles({
   root: {
