@@ -2,6 +2,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getFinishRoute, getFinishRoutes, getStartRoute, getStartRoutes } from '../../store/route/route.selectors'
 import { useState } from 'react'
 import { setFinishRoute, setStartRoute } from '../../store/route/route.actions'
+import * as yup from 'yup'
+
+const validationScheme = yup.object({
+  start: yup.string('Choose start location')
+    .required('Start location is required'),
+  finish: yup.string('Choose finish location')
+    .required('Finish location is required'),
+  option: yup.string('Choose tariff')
+    .required('Tariff is required'),
+})
 
 export const useOrderForm = (onSubmit) => {
   const dispatch = useDispatch()
@@ -26,16 +36,16 @@ export const useOrderForm = (onSubmit) => {
     setOption(title)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
 
     const form = {
-      start: startLocation,
-      finish: finishLocation,
+      start: startLocation ?? '',
+      finish: finishLocation ?? '',
       option,
     }
 
-    const errors = validateForm(form)
+    const errors = await validateForm(form)
 
     if (errors) {
       setErrorMessage(errors)
@@ -62,22 +72,11 @@ export const useOrderForm = (onSubmit) => {
   }
 }
 
-function validateForm(form) {
-  if (typeof form !== 'object') {
-    return 'Не валидные данные формы'
+async function validateForm(form) {
+  try {
+    await validationScheme.validate(form)
+    return null
+  } catch (e) {
+    return e.errors[0]
   }
-
-  if (!('start' in form) || !form.start) {
-    return 'Выберите Вашу локацию'
-  }
-
-  if (!('finish' in form) || !form.finish) {
-    return 'Выберите куда отправляетесь'
-  }
-
-  if (!('option' in form) || !form.option) {
-    return 'Выберите тип траспорта'
-  }
-
-  return null
 }

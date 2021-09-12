@@ -42,30 +42,27 @@ const useStyles = makeStyles({
 
 export const RegisterForm = () => {
   const {
-    email,
-    name,
-    password,
     loader,
     error,
     success,
-    handleSubmit,
-    handleChangeEmail,
-    handleChangeName,
-    handleChangePassword
+    form
   } = useRegisterForm()
 
   const classes = useStyles()
 
   return (
-    <form data-testid="reg-form" noValidate onSubmit={handleSubmit}>
+    <form data-testid="reg-form" noValidate onSubmit={form.handleSubmit}>
       <Grid container className={classes.wrapper}>
         <Grid item xs={12} className={classes.fieldWrapper}>
           <TextField
             label="Email*"
             placeholder="mail@mail.ru"
+            name="email"
             autoComplete="off"
-            value={email}
-            onChange={handleChangeEmail}
+            value={form.values.email}
+            onChange={form.handleChange}
+            error={form.touched.email && Boolean(form.errors.email)}
+            helperText={form.touched.email && form.errors.email}
             margin="none"
             fullWidth
             data-testid="reg-email"
@@ -75,9 +72,12 @@ export const RegisterForm = () => {
           <TextField
             label="Как вас зовут?*"
             placeholder="Петр Александрович"
-            value={name}
+            name="name"
             autoComplete="off"
-            onChange={handleChangeName}
+            value={form.values.name}
+            onChange={form.handleChange}
+            error={form.touched.name && Boolean(form.errors.name)}
+            helperText={form.touched.name && form.errors.name}
             margin="none"
             fullWidth
             data-testid="reg-name"
@@ -89,8 +89,11 @@ export const RegisterForm = () => {
             label="Придумайте пароль*"
             autoComplete="off"
             placeholder="******"
-            value={password}
-            onChange={handleChangePassword}
+            name="password"
+            value={form.values.password}
+            onChange={form.handleChange}
+            error={form.touched.password && Boolean(form.errors.password)}
+            helperText={form.touched.password && form.errors.password}
             margin="none"
             fullWidth
             data-testid="reg-password"

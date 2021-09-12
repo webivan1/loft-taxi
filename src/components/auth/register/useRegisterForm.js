@@ -1,29 +1,41 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { addUserAsync } from '../../../store/auth/register/register.actions'
 import { useHistory } from 'react-router-dom'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
+
+const validationSchema = yup.object({
+  email: yup
+    .string('Enter your email')
+    .email('Enter a valid email')
+    .required('Email is required'),
+  name: yup
+    .string('Enter your name')
+    .min(3, 'Name should be of minimum 8 characters length')
+    .required('Name is required'),
+  password: yup
+    .string('Enter your password')
+    .min(5, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+})
 
 export const useRegisterForm = () => {
   const dispatch = useDispatch()
   const router = useHistory()
   const { loader, error, success } = useSelector(({ register }) => register)
 
-  const [email, setEmail] = useState('')
-  const [name, setName] = useState('')
-  const [password, setPassword] = useState('')
-
-  const handleSubmit = event => {
-    if (loader) {
-      return
-    }
-
-    event.preventDefault()
-    dispatch(addUserAsync({ email, name, password }))
-  }
-
-  const handleChangeEmail = (e) => setEmail(e.target.value)
-  const handleChangeName = (e) => setName(e.target.value)
-  const handleChangePassword = (e) => setPassword(e.target.value)
+  const form = useFormik({
+    validationSchema,
+    initialValues: {
+      name: '',
+      email: '',
+      password: ''
+    },
+    onSubmit: values => {
+      !loader && dispatch(addUserAsync(values))
+    },
+  })
 
   useEffect(() => {
     if (success) {
@@ -35,15 +47,9 @@ export const useRegisterForm = () => {
   }, [success])
 
   return {
-    email,
-    name,
-    password,
     loader,
     error,
     success,
-    handleSubmit,
-    handleChangeEmail,
-    handleChangeName,
-    handleChangePassword
+    form
   }
 }

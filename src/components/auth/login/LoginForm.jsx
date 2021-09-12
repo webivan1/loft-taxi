@@ -2,10 +2,11 @@ import { ButtonForm } from '../../ui/ButtonForm'
 import { Link } from 'react-router-dom'
 import { Grid, TextField } from '@material-ui/core'
 import { makeStyles, darken } from '@material-ui/core/styles'
-import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Alert } from '@material-ui/lab'
 import { loginAsync } from '../../../store/auth/login/login.actions'
+import * as yup from 'yup'
+import { useFormik } from 'formik'
 
 const useStyles = makeStyles({
   fieldWrapper: {
@@ -42,31 +43,46 @@ const useStyles = makeStyles({
   }
 });
 
+const validationSchema = yup.object({
+  email: yup
+    .string('Enter your email')
+    .email('Enter a valid email')
+    .required('Email is required'),
+  password: yup
+    .string('Enter your password')
+    .min(5, 'Password should be of minimum 8 characters length')
+    .required('Password is required'),
+})
+
 export const LoginForm = () => {
   const dispatch = useDispatch()
   const { loader, error } = useSelector(({ login }) => login)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
 
-  const handleSubmit = event => {
-    event.preventDefault()
-    dispatch(loginAsync({ email, password }))
-  }
-
-  const handleChangeEmail = (e) => setEmail(e.target.value)
-  const handleChangePassword = (e) => setPassword(e.target.value)
+  const form = useFormik({
+    initialValues: {
+      email: '',
+      password: ''
+    },
+    validationSchema,
+    onSubmit: values => {
+      !loader && dispatch(loginAsync(values))
+    }
+  })
 
   const classes = useStyles()
 
   return (
-    <form data-testid="login-form" noValidate onSubmit={handleSubmit}>
+    <form data-testid="login-form" noValidate onSubmit={form.handleSubmit}>
       <Grid container className={classes.wrapper}>
         <Grid item xs={12} className={classes.fieldWrapper}>
           <TextField
             label="Email"
             placeholder="mail@mail.ru"
-            value={email}
-            onChange={handleChangeEmail}
+            name="email"
+            value={form.values.email}
+            onChange={form.handleChange}
+            error={form.touched.email && Boolean(form.errors.email)}
+            helperText={form.touched.email && form.errors.email}
             margin="none"
             fullWidth
             data-testid="login-email"
@@ -77,8 +93,11 @@ export const LoginForm = () => {
             type="password"
             label="Пароль"
             placeholder="******"
-            value={password}
-            onChange={handleChangePassword}
+            name="password"
+            value={form.values.password}
+            onChange={form.handleChange}
+            error={form.touched.password && Boolean(form.errors.password)}
+            helperText={form.touched.password && form.errors.password}
             margin="none"
             fullWidth
             data-testid="login-password"

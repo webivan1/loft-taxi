@@ -4,7 +4,7 @@ import { Paper } from '@material-ui/core'
 import { PaymentSuccess } from '../../components/payment/PaymentSuccess'
 import { PaymentFormWrapper } from '../../components/payment/PaymentFormWrapper'
 import { useDispatch, useSelector } from 'react-redux'
-import { resetForm, updatePaymentAsync } from '../../store/payment/form/payment-form.actions'
+import { resetForm } from '../../store/payment/form/payment-form.actions'
 
 const useStyles = makeStyles({
   background: {
@@ -36,10 +36,6 @@ export const ProfilePage = () => {
   const dispatch = useDispatch()
   const { success } = useSelector(({ paymentForm }) => paymentForm)
 
-  const handleUpdatedPayment = (form) => {
-    dispatch(updatePaymentAsync(form))
-  }
-
   useEffect(() => {
     success && dispatch(resetForm())
   }, [dispatch])
@@ -48,7 +44,7 @@ export const ProfilePage = () => {
     <div className={classes.background}>
       <Paper className={classes.modal}>
         {!success ? (
-          <PaymentFormWrapper onSubmit={handleUpdatedPayment} />
+          <PaymentFormWrapper />
         ) : (
           <PaymentSuccess />
         )}
