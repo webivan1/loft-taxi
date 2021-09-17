@@ -38,12 +38,7 @@ export const useRegisterForm = () => {
   })
 
   useEffect(() => {
-    if (success) {
-      setTimeout(() => {
-        // go to login page
-        router.push('/')
-      }, 2000)
-    }
+    success && router.push('/')
   }, [success])
 
   return {
