@@ -1,9 +1,7 @@
-import { useEffect, useRef, memo } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import mapbox from 'mapbox-gl'
 import 'mapbox-gl/dist/mapbox-gl.css'
-
-mapbox.accessToken = process.env.REACT_APP_MAPBOX_API_KEY
+import { useMap } from './useMap'
+import { useRoute } from './useRoute'
 
 const useStyles = makeStyles({
   root: {
@@ -16,27 +14,10 @@ const useStyles = makeStyles({
   }
 })
 
-export const MapLayer = memo(() => {
+export const MapLayer = () => {
   const classes = useStyles()
-  const mapContainer = useRef(null)
-  const map = useRef(null)
+  const { map, mapContainer } = useMap()
+  useRoute(map)
 
-  useEffect(() => {
-    if (!map.current) {
-      map.current = new mapbox.Map({
-        container: mapContainer.current,
-        style: 'mapbox://styles/mapbox/light-v10',
-        center: [30.0164037, 59.8658356],
-        zoom: 9
-      })
-
-      return () => {
-        map.current.remove()
-      }
-    }
-  })
-
-  return (
-    <div ref={mapContainer} className={classes.root}/>
-  )
-})
+  return <div ref={mapContainer} className={classes.root}/>
+}

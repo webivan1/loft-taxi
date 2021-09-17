@@ -1,11 +1,12 @@
 import axios from 'axios'
+import { userStorage } from '../store/user/user.storage'
 
 const http = axios.create({
   baseURL: process.env.REACT_APP_BASE_API_URL,
 })
 
 http.interceptors.request.use(config => {
-  const authToken = localStorage.getItem(process.env.REACT_APP_AUTH_TOKEN_KEY)
+  const authToken = userStorage.getToken()
 
   if (authToken) {
     if (config.method === 'post' || config.method === 'put') {

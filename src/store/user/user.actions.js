@@ -1,4 +1,3 @@
-import { userStorage } from './user.storage'
 import { ADD_USER, LOGOUT } from './user.constants'
 
 export const addUser = token => ({
@@ -6,16 +5,6 @@ export const addUser = token => ({
   payload: token
 })
 
-const logoutAction = () => ({
+export const logout = () => ({
   type: LOGOUT
 })
-
-export const setUserWithToken = token => dispatch => {
-  dispatch(addUser(token))
-  userStorage.setToken(token)
-}
-
-export const logout = () => dispatch => {
-  dispatch(logoutAction())
-  userStorage.removeToken()
-}

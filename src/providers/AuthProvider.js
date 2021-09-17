@@ -1,7 +1,7 @@
 import { userStorage } from '../store/user/user.storage'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setUserWithToken } from '../store/user/user.actions'
+import { addUser } from '../store/user/user.actions'
 
 export const AuthProvider = ({ children }) => {
   const token = userStorage.getToken()
@@ -10,7 +10,8 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (token) {
-      dispatch(setUserWithToken(token))
+      dispatch(addUser(token))
+      userStorage.setToken(token)
     }
   }, [dispatch])
 

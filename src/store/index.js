@@ -1,18 +1,31 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
-import { actionAsyncMiddleware } from './middleware/actionAsyncMiddleware'
-
+import { logger } from 'redux-logger'
+import createSagaMiddleware from 'redux-saga'
+import { rootSaga } from './root.sagas'
+// reducers
 import { loginReducer } from './auth/login/login.reducer'
 import { registerReducer } from './auth/register/register.reducer'
 import { userReducer } from './user/user.reducer'
-import { profileDetailReducer } from './profile/detail/profile-detail.reducer'
-import { profileFormReducer } from './profile/form/profile-form.reducer'
+import { paymentDetailReducer } from './payment/detail/payment-detail.reducer'
+import { paymentFormReducer } from './payment/form/payment-form.reducer'
+import { addressReducer } from './address/address.reducer'
+import { routeReducer } from './route/route.reducer'
+
+export const sagaMiddleware = createSagaMiddleware()
 
 export const reducers = {
   login: loginReducer,
   register: registerReducer,
   user: userReducer,
-  profileDetail: profileDetailReducer,
-  profileForm: profileFormReducer
+  paymentDetail: paymentDetailReducer,
+  paymentForm: paymentFormReducer,
+  address: addressReducer,
+  route: routeReducer
 }
 
-export default createStore(combineReducers(reducers), applyMiddleware(actionAsyncMiddleware))
+export default createStore(
+  combineReducers(reducers),
+  applyMiddleware(sagaMiddleware, logger)
+)
+
+sagaMiddleware.run(rootSaga)

@@ -1,6 +1,5 @@
 import {
-  LOGIN_START_FETCHING,
-  LOGIN_STOP_FETCHING,
+  LOGIN_FETCH_TOKEN,
   LOGIN_ERROR,
   LOGIN_SUCCESS
 } from './login.constants'
@@ -14,14 +13,12 @@ const initialState = {
 
 export const loginReducer = (state = initialState, { type, payload = null }) => {
   switch (type) {
-    case LOGIN_START_FETCHING:
+    case LOGIN_FETCH_TOKEN:
       return { ...state, error: null, success: false, loader: true }
-    case LOGIN_STOP_FETCHING:
-      return { ...state, loader: false }
     case LOGIN_ERROR:
-      return { ...state, error: payload, success: false }
+      return { ...state, error: payload, success: false, loader: false }
     case LOGIN_SUCCESS:
-      return { ...state, success: true }
+      return { ...state, success: true, loader: false }
     case LOGOUT:
       return { ...initialState }
     default:

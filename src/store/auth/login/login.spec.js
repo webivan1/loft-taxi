@@ -1,26 +1,17 @@
 import { loginReducer } from './login.reducer'
 import { createStore, applyMiddleware } from 'redux'
-import { error, loginAsync, startFetching, stopFetching, success } from './login.actions'
-import { actionAsyncMiddleware } from '../../middleware/actionAsyncMiddleware'
+import { error, loginAsync, success } from './login.actions'
 import * as api from './login.api'
+import createSagaMiddleware from 'redux-saga'
+import { rootSaga } from '../../root.sagas'
 
 describe('User reducer', () => {
   let store;
 
   beforeEach(() => {
-    store = createStore(loginReducer, applyMiddleware(actionAsyncMiddleware))
-  })
-
-  it('action - startFetching', () => {
-    expect(store.getState().loader).toBeFalsy()
-    store.dispatch(startFetching())
-    expect(store.getState().loader).toBeTruthy()
-  })
-
-  it('action - stopFetching', () => {
-    expect(store.getState().loader).toBeFalsy()
-    store.dispatch(stopFetching())
-    expect(store.getState().loader).toBeFalsy()
+    const saga = createSagaMiddleware()
+    store = createStore(loginReducer, applyMiddleware(saga))
+    saga.run(rootSaga)
   })
 
   it('action - error', () => {
