@@ -14,3 +14,7 @@ export const getFinishRoutes = state => {
     disabled: name === getStartRoute(state)
   }))
 }
+
+export const canShowRoute = state => {
+  return state.route.map && state.route.map.length > 0
+}

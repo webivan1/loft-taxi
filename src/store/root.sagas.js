@@ -1,4 +1,4 @@
-import { all } from 'redux-saga/effects'
+import { all, fork } from 'redux-saga/effects'
 // sagas
 import { actionLoginWatcher } from './auth/login/login.sagas'
 import { actionRegisterWatcher } from './auth/register/register.sagas'
@@ -10,12 +10,12 @@ import { actionRouteWatcher } from './route/route.sagas'
 
 export function* rootSaga() {
   yield all([
-    actionLoginWatcher(),
-    actionLogoutWatcher(),
-    actionRegisterWatcher(),
-    actionPaymentDetailWatcher(),
-    actionPaymentFormWatcher(),
-    actionFetchAddressListWatcher(),
-    actionRouteWatcher()
+    fork(actionLoginWatcher),
+    fork(actionLogoutWatcher),
+    fork(actionRegisterWatcher),
+    fork(actionPaymentDetailWatcher),
+    fork(actionPaymentFormWatcher),
+    fork(actionFetchAddressListWatcher),
+    fork(actionRouteWatcher)
   ])
 }

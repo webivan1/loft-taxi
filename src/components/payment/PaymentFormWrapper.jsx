@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { PaymentForm } from './PaymentForm'
-import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { Alert } from '@material-ui/lab'
 import { CircularProgress } from '@material-ui/core'
@@ -29,27 +28,15 @@ const useStyles = makeStyles({
   }
 })
 
-export const PaymentFormWrapper = ({ onSubmit }) => {
+export const PaymentFormWrapper = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const { loader, error, detail, fetchDetail } = usePaymentDetail()
-  const [nameOfCard, setNameOfCard] = useState('')
-  const [numberOfCard, setNumberOfCard] = useState('')
-  const [expireDate, setExpireDate] = useState('')
-  const [cvcCode, setCvcCode] = useState('')
 
   useEffect(() => {
     dispatch(resetForm())
-
-    if (detail) {
-      setNameOfCard(detail.cardName ?? '')
-      setNumberOfCard(detail.cardNumber ?? '')
-      setExpireDate(detail.expiryDate ?? '')
-      setCvcCode(detail.cvc ?? '')
-    } else if (!loader) {
-      fetchDetail()
-    }
-  }, [detail])
+    !loader && fetchDetail();
+  }, [dispatch])
 
   return (
     <>
@@ -65,28 +52,15 @@ export const PaymentFormWrapper = ({ onSubmit }) => {
       {error && <Alert className={classes.notify} severity="error">{error}</Alert>}
 
       {loader ? (
-        <CircularProgress/>
+        <CircularProgress />
       ) : (
-        <PaymentForm
-          onSubmit={onSubmit}
-          setters={{
-            setNameOfCard,
-            setNumberOfCard,
-            setExpireDate,
-            setCvcCode
-          }}
-          getters={{
-            nameOfCard,
-            numberOfCard,
-            expireDate,
-            cvcCode
-          }}
-        />
+        <PaymentForm initialValues={detail ?? {
+          cardName: '',
+          cardNumber: '',
+          expiryDate: '',
+          cvc: ''
+        }} />
       )}
     </>
   )
-}
-
-PaymentFormWrapper.propTypes = {
-  onSubmit: PropTypes.func.isRequired
 }

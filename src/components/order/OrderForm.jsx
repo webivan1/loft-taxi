@@ -6,6 +6,8 @@ import { Option } from './Option'
 import { ButtonForm } from '../ui/ButtonForm'
 import { Alert, Autocomplete } from '@material-ui/lab'
 import { useOrderForm } from './useOrderForm'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 
 const useStyles = makeStyles({
   fieldWrapper: {
@@ -45,65 +47,87 @@ const useStyles = makeStyles({
   }
 })
 
-const SelectForm = ({ className, label, id, value, onChange, options, loading = false }) => (
-  <Autocomplete
-    id={id}
-    data-testid={id}
-    loading={loading}
-    className={className}
-    fullWidth
-    options={options}
-    getOptionDisabled={({ disabled }) => disabled}
-    getOptionLabel={({ name }) => name}
-    getOptionSelected={({ name }) => value === name}
-    onChange={(event, value) => onChange(value?.name)}
-    renderInput={(params) =>
-      <TextField
-        {...params}
-        label={label}
-      />
-    }
-  />
-)
+const validationSchema = yup.object({
+  start: yup.string('Choose start location')
+    .min(5, 'Password should be of minimum 8 characters length')
+    .required('Start location is required'),
+  finish: yup.string('Choose finish location')
+    .min(5, 'Password should be of minimum 8 characters length')
+    .required('Finish location is required'),
+  option: yup.string('Choose tariff')
+    .min(5, 'Password should be of minimum 8 characters length')
+    .required('Tariff is required'),
+})
 
 export const OrderForm = ({ onSubmit }) => {
   const classes = useStyles()
   const {
+    initialValues,
     optionLoader,
     formLoader,
     startDestinationOptions,
     finishDestinationOptions,
-    startLocation,
-    finishLocation,
-    option,
-    error,
     formRequestError,
-    handleSubmit,
     handleSetStartLocation,
-    handleSetFinishLocation,
-    handleOptionClick
+    handleSetFinishLocation
   } = useOrderForm(onSubmit)
 
+  const { setFieldValue, values, errors, touched, handleSubmit } = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: values => {
+      onSubmit(values)
+    },
+  })
+
   return (
-    <form action="#" method="POST" onSubmit={handleSubmit}>
+    <form action="#" noValidate method="POST" onSubmit={handleSubmit}>
       <div className={classes.fieldWrapper}>
-        <SelectForm
-          label="Откуда"
-          id="from-destination"
+        <Autocomplete
+          data-testid="from-destination"
+          loading={optionLoader}
           className={classes.select}
-          value={startLocation}
           options={startDestinationOptions}
-          loading={optionLoader}
-          onChange={handleSetStartLocation}
+          getOptionDisabled={({ disabled }) => disabled}
+          getOptionLabel={({ name }) => name}
+          getOptionSelected={({ name }) => values.start === name}
+          onChange={(event, value) => {
+            setFieldValue('start', value?.name ?? '')
+            handleSetStartLocation(value?.name ?? '')
+          }}
+          renderInput={(params) =>
+            <TextField
+              {...params}
+              fullWidth
+              label="Откуда"
+              value={values.start}
+              error={touched.start && Boolean(errors.start)}
+              helperText={touched.start && errors.start}
+            />
+          }
         />
-        <SelectForm
-          label="Куда"
-          id="to-destination"
-          className={[classes.select, 'no-border'].join(' ')}
-          value={finishLocation}
-          options={finishDestinationOptions}
+        <Autocomplete
+          data-testid="to-destination"
           loading={optionLoader}
-          onChange={handleSetFinishLocation}
+          className={classes.select}
+          options={finishDestinationOptions}
+          getOptionDisabled={({ disabled }) => disabled}
+          getOptionLabel={({ name }) => name}
+          getOptionSelected={({ name }) => values.finish === name}
+          onChange={(event, value) => {
+            setFieldValue('finish', value?.name ?? '')
+            handleSetFinishLocation(value?.name ?? '')
+          }}
+          renderInput={(params) =>
+            <TextField
+              {...params}
+              fullWidth
+              label="Куда"
+              value={values.finish}
+              error={touched.finish && Boolean(errors.finish)}
+              helperText={touched.finish && errors.finish}
+            />
+          }
         />
       </div>
       <div className={classes.wrapOptions}>
@@ -111,16 +135,22 @@ export const OrderForm = ({ onSubmit }) => {
           {options.map(item => (
             <Option
               key={item.title}
-              active={item.title === option}
-              onClick={handleOptionClick}
+              active={item.title === values.option}
+              onClick={({ title }) => setFieldValue('option', title)}
               {...item}
             />
           ))}
         </div>
 
-        {(error || formRequestError) &&
+        {Boolean(errors.option) &&
           <Alert className={classes.notify} severity="error">
-            {error ?? formRequestError}
+            {errors.option}
+          </Alert>
+        }
+
+        {formRequestError &&
+          <Alert className={classes.notify} severity="error">
+            {formRequestError}
           </Alert>
         }
 
@@ -134,13 +164,4 @@ export const OrderForm = ({ onSubmit }) => {
 
 OrderForm.propTypes = {
   onSubmit: PropTypes.func.isRequired
-}
-
-SelectForm.propTypes = {
-  className: PropTypes.string,
-  label: PropTypes.string.isRequired,
-  id: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  children: PropTypes.any
 }

@@ -4,8 +4,25 @@ import InputMask from 'react-input-mask'
 import { makeStyles } from '@material-ui/core/styles'
 import { PaymentCard } from './PaymentCard'
 import { ButtonForm } from '../ui/ButtonForm'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Alert } from '@material-ui/lab'
+import * as yup from 'yup'
+import { useFormik } from 'formik'
+import { updatePaymentAsync } from '../../store/payment/form/payment-form.actions'
+
+const validationSchema = yup.object({
+  cardName: yup.string('Enter card holder\'s name')
+    .required('Name is required'),
+  cardNumber: yup.string('Enter card number')
+    .matches(/^\d{4}\s\d{4}\s\d{4}\s\d{4}$/, 'Incorrect number card XXXX XXXX XXXX XXXX')
+    .required('Card number is required'),
+  expiryDate: yup.string('Enter expire date')
+    .matches(/^\d{2}\/\d{2}$/, 'Incorrect expire date MM/YY')
+    .required('Expire date is required'),
+  cvc: yup.string('Enter CVC code')
+    .matches(/^\d{3}$/, 'Incorrect CVC code')
+    .required('CVC is required'),
+})
 
 const useStyles = makeStyles(theme => ({
   gridWrapper: {
@@ -55,21 +72,21 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export const PaymentForm = ({
-  onSubmit,
-  getters: { nameOfCard, numberOfCard, expireDate, cvcCode },
-  setters: { setNameOfCard, setNumberOfCard, setExpireDate, setCvcCode }
-}) => {
+export const PaymentForm = ({ initialValues }) => {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const { loader, error } = useSelector(({ paymentForm }) => paymentForm)
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    onSubmit({ nameOfCard, numberOfCard, expireDate, cvcCode })
-  }
+  const form = useFormik({
+    validationSchema,
+    initialValues,
+    onSubmit: values => {
+      !loader && dispatch(updatePaymentAsync(values))
+    }
+  })
 
   return (
-    <form noValidate action="#" method="POST" onSubmit={handleSubmit}>
+    <form noValidate action="#" method="POST" onSubmit={form.handleSubmit}>
       {error && <Alert className={classes.notify} severity="error">{error}</Alert>}
 
       <div className={classes.gridWrapper}>
@@ -77,20 +94,26 @@ export const PaymentForm = ({
           <TextField
             fullWidth
             label="Имя владельца"
-            value={nameOfCard}
-            onChange={event => setNameOfCard(event.target.value)}
+            name="cardName"
             className={classes.field}
+            value={form.values.cardName}
+            onChange={form.handleChange}
+            error={form.touched.cardName && Boolean(form.errors.cardName)}
+            helperText={form.touched.cardName && form.errors.cardName}
           />
           <InputMask
             mask="9999 9999 9999 9999"
             maskChar=" "
-            value={numberOfCard}
-            onChange={event => setNumberOfCard(event.target.value)}
+            value={form.values.cardNumber}
+            onChange={form.handleChange}
           >
             {props => <TextField
               fullWidth
               label="Номер карты"
+              name="cardNumber"
               className={classes.field}
+              error={form.touched.cardNumber && Boolean(form.errors.cardNumber)}
+              helperText={form.touched.cardNumber && form.errors.cardNumber}
               {...props}
             />}
           </InputMask>
@@ -98,33 +121,42 @@ export const PaymentForm = ({
             <InputMask
               mask="99/99"
               maskChar=" "
-              value={expireDate}
-              onChange={event => setExpireDate(event.target.value)}
+              value={form.values.expiryDate}
+              onChange={form.handleChange}
             >
               {props => <TextField
                 fullWidth
                 label="MM/YY"
+                name="expiryDate"
                 className={classes.field}
+                error={form.touched.expiryDate && Boolean(form.errors.expiryDate)}
+                helperText={form.touched.expiryDate && form.errors.expiryDate}
                 {...props}
               />}
             </InputMask>
             <InputMask
               mask="999"
               maskChar=" "
-              value={cvcCode}
-              onChange={event => setCvcCode(event.target.value)}
+              value={form.values.cvc}
+              onChange={form.handleChange}
             >
               {props => <TextField
                 fullWidth
                 label="CVC"
+                name="cvc"
                 className={classes.field}
+                error={form.touched.cvc && Boolean(form.errors.cvc)}
+                helperText={form.touched.cvc && form.errors.cvc}
                 {...props}
               />}
             </InputMask>
           </div>
         </div>
         <div className={classes.cardColumn}>
-          <PaymentCard cardNumber={numberOfCard} date={expireDate}/>
+          <PaymentCard
+            cardNumber={form.values.cardNumber}
+            date={form.values.expiryDate}
+          />
         </div>
       </div>
       <div className={classes.btn}>
@@ -137,20 +169,22 @@ export const PaymentForm = ({
 }
 
 PaymentForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  getters: PropTypes.shape({
-    nameOfCard: PropTypes.string,
-    numberOfCard: PropTypes.string,
-    expireDate: PropTypes.string,
-    cvcCode: PropTypes.oneOfType([
+  initialValues: PropTypes.shape({
+    cardName: PropTypes.string,
+    cardNumber: PropTypes.string,
+    expiryDate: PropTypes.string,
+    cvc: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
     ])
-  }).isRequired,
-  setters: PropTypes.shape({
-    setNameOfCard: PropTypes.func.isRequired,
-    setNumberOfCard: PropTypes.func.isRequired,
-    setExpireDate: PropTypes.func.isRequired,
-    setCvcCode: PropTypes.func.isRequired
-  }).isRequired
+  })
+}
+
+PaymentForm.defaultProps = {
+  initialValues: {
+    cardName: '',
+    cardNumber: '',
+    expiryDate: '',
+    cvc: ''
+  }
 }

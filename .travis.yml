@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - stable
+cache:
+  directories:
+    - node_modules
+script:
+  - yarn test
+deploy:
+  provider: heroku
+  api_key:
+    secure: HrmAmvqRGsFv5wl3QbdheWrli3yjIgjoHlOM+u1Dpy+3/CWawZtJEKXrDcSgntBtyEaBosbJfk00zJkMGRpGo73JiI+rc0kN/smClgvr4Z8ydtg7tXe+I1ljatJUnsUVxYVMk9lbe+exrqrlii3di3hqY91vPx/bQCRWIRUDDuN14yj4sTA/L3P3B/6G/vH8/vb1DWC8/dANYfwvlzR6Qgwo3Zk0Cqv9PZlCrGjSYADL2w9e0GRa7SonWMqqj9vZv38BIBf1CPy98hfSGX0V1AvA0dvx/i2piHpClGA7CrCjBLg9ZosqPS12cgXqweH+I1EwoRnjpYgj6cBbkOV5ZKJn1oIecWL4W3nrln2UZLR/1U3JRVpYOPcwR+pvI3TEX1cweN7fCMUnqvD/fM9Rw+5q5py9SOumRf2dOhoaomtzv2DRcDw0mE+zku9tfVJWXRq4JmvF3WpI1iMgJhc8xrWdME3aA0B9xyCF/0eUYSW0TqInG187y3OV+mwUY/C2fDfaX3yBAd0k4Q6s86ksn9fOUU+Q9m+nfgSFRTguHhS6uR9BRl/9w5EVVYE+9k4+GwGx9w/uB+0OGcGMKjvMkfqgZz42fJlireZffc72KxwCvLWCIwWTbhfXwkDAxVdPV38J/Lwwz7vD04Bcve6ICFAp6dwbUPso9gn/fNj9KZI=
+  app: safe-oasis-94557

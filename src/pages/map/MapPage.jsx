@@ -1,13 +1,14 @@
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper } from '@material-ui/core'
 import { OrderForm } from '../../components/order/OrderForm'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { OrderSuccess } from '../../components/order/OrderSuccess'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAddresses } from '../../store/address/address.actions'
 import { fetchRoutesAsync, routesReset } from '../../store/route/route.actions'
 import { usePaymentDetail } from '../../components/payment/usePaymentDetail'
 import { OrderCanceled } from '../../components/order/OrderCanceled'
+import { canShowRoute } from '../../store/route/route.selectors'
 
 const useStyles = makeStyles({
   root: {
@@ -25,7 +26,7 @@ export const MapPage = () => {
   const classes = useStyles()
   const dispatch = useDispatch()
   const addressList = useSelector(({ address }) => address.list)
-  const isShowRoute = useSelector(({ route }) => route.map && route.map.length > 0)
+  const isShowRoute = useSelector(canShowRoute)
   const { detail, loader, canPay, fetchDetail } = usePaymentDetail();
 
   const handleSubmittedForm = (form) => {
